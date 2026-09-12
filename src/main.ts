@@ -21,7 +21,8 @@ const mount = (id: string, html: string) => {
 };
 
 mount("live-grid", grid(live));
-mount("rest-grid", grid(rest));
+// Continues from where the first grid stopped, so the numbers read as one list of fifteen.
+mount("rest-grid", grid(rest, live.length));
 
 // After both grids are mounted, or it finds no cards.
 attachTilt();

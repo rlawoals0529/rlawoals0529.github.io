@@ -17,7 +17,13 @@
  *   pointer to straighten it.
  */
 
-const MAX_TILT = 6; // degrees. Past about eight it stops reading as depth and starts as a gimmick.
+const MAX_TILT = 2.2; // degrees. Enough to register as depth, not enough to notice as an effect.
+
+/*
+ * It was 6 in the first pass, which was right for a chunky playful card and wrong for this one.
+ * At this scale the movement should be something you feel rather than see: the rule this page is
+ * built on is precision, and a card swinging 6 degrees under the cursor is not precise.
+ */
 
 export function attachTilt(root: ParentNode = document): () => void {
   // Anyone who has asked for less motion gets none of this. Checked once at attach time and
@@ -54,7 +60,7 @@ export function attachTilt(root: ParentNode = document): () => void {
           // cursor up should tip the top of the card away, not toward you.
           const ry = (px - 0.5) * 2 * MAX_TILT;
           const rx = -(py - 0.5) * 2 * MAX_TILT;
-          innerOf(card).style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translate3d(-3px, -3px, 0)`;
+          innerOf(card).style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translate3d(0, -1px, 0)`;
           card.style.setProperty("--glow-x", `${(px * 100).toFixed(1)}%`);
           card.style.setProperty("--glow-y", `${(py * 100).toFixed(1)}%`);
         });

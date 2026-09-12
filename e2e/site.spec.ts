@@ -51,9 +51,11 @@ test("a card carries exactly one stretched link, so it has one accessible name",
 
 test("no demo link is a dead one", async ({ page, request }) => {
   await ready(page);
-  const hrefs = await page.locator(".card-actions a.primary").evaluateAll((els) =>
-    els.map((e) => (e as HTMLAnchorElement).href),
-  );
+  // The first action link in a card is the demo when there is one. Scoped to cards that carry
+  // a live marker, so this counts the same set the page claims is live.
+  const hrefs = await page
+    .locator(".card:has(.live) .card-actions a")
+    .evaluateAll((els) => els.map((e) => (e as HTMLAnchorElement).href).filter((h) => !h.includes("github.com")));
   expect(hrefs.length).toBe(live.length);
   for (const href of hrefs) {
     const res = await request.get(href);
@@ -100,7 +102,9 @@ test("body text clears AA in every palette", async ({ page }) => {
     const c = await page.evaluate((theme) => {
       document.documentElement.dataset.theme = theme;
       const p = document.querySelector(".card p")!;
-      return { text: getComputedStyle(p).color, bg: getComputedStyle(document.querySelector(".card")!).backgroundColor };
+      // The cell is transparent now, so the substrate behind the text is the page itself.
+      // Measuring against the card would read rgba(0,0,0,0) and score nothing.
+      return { text: getComputedStyle(p).color, bg: getComputedStyle(document.body).backgroundColor };
     }, id);
     // 4.5:1, the threshold for text this size. It was failing in thirteen of fifteen before the
     // card copy moved off --dim, which is a metadata colour.
@@ -130,11 +134,15 @@ test("the cards tilt toward the cursor, and stop when asked to", async ({ page, 
   // is also satisfied by an empty string, so it passes when the effect has been cleared, which
   // is the opposite of what this test is for.
   await page.mouse.move(box.x + box.width * 0.2, box.y + box.height * 0.2);
-  await expect.poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform)).toContain("rotateX(3");
+  await expect
+    .poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform))
+    .toMatch(/rotateX\(\d/);
 
   await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.8);
   // Inverted, because the pointer crossed the centre. If it did not invert, nothing is tracking.
-  await expect.poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform)).toContain("rotateX(-3");
+  await expect
+    .poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform))
+    .toMatch(/rotateX\(-\d/);
 
   // Leaving clears it, or a card stays tilted with no pointer to straighten it.
   await page.mouse.move(2, 2);
