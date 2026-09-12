@@ -4,6 +4,7 @@ import palettes from "./theme/palettes.json";
 import { grid } from "./render";
 import type { Project } from "./types";
 import { createThemeStore, grouped, type Theme } from "./lib/theme";
+import { wirePalette } from "./lib/palette-keys";
 import { attachTilt } from "./tilt";
 
 const THEMES = palettes as Theme[];
@@ -44,7 +45,7 @@ if (list) {
       <div class="swatches">
         ${g.themes
           .map(
-            (t) => `<button class="swatch" type="button" data-theme="${t.id}" aria-pressed="false">
+            (t) => `<button class="swatch" type="button" data-theme="${t.id}">
               <span class="swatch-chip" aria-hidden="true"></span>
               <span class="swatch-name">${t.label}</span>
             </button>`,
@@ -56,10 +57,17 @@ if (list) {
     .join("");
 
   const buttons = [...list.querySelectorAll<HTMLButtonElement>("button[data-theme]")];
+  let chosen = store.initial();
   const select = (id: string) => {
-    const applied = store.apply(id);
-    for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.theme === applied));
+    chosen = store.apply(id);
   };
-  for (const b of buttons) b.addEventListener("click", () => b.dataset.theme && select(b.dataset.theme));
-  select(store.initial());
+  /*
+   * One tab stop and the arrow keys, from the same helper the React picker's behaviour lives
+   * in. Fifteen swatches were fifteen tab stops, and trying one was a one-way door: there was
+   * no way to look through them and keep the palette you came in with.
+   *
+   * The look stays this page's own. Only the keys are shared.
+   */
+  wirePalette(list, buttons, { select, current: () => chosen });
+  select(chosen);
 }

@@ -42,7 +42,8 @@ body { font-family: var(--font-body); overflow-x: hidden; }
 
 .skip {
   position: absolute; left: var(--gutter); top: 1rem; z-index: 50;
-  background: var(--accent); color: var(--bg);
+  /* --on-accent, not --bg: --bg on an accent fill measured 2.11:1 on the palest palette. */
+  background: var(--accent); color: var(--on-accent, var(--bg));
   border: var(--rule) solid var(--accent); padding: .7rem 1.1rem;
   font: 600 var(--label)/1 var(--font-mono); letter-spacing: var(--tracking); text-transform: uppercase;
   transform: translateY(-200%);
@@ -79,7 +80,9 @@ main:focus { outline: none; }
   margin: 0;
   text-wrap: balance;
 }
-.hero h1 em { font-style: normal; color: var(--accent); }
+/* --accent-text, not --accent: the accent is a fill colour, and at 144px large text still
+   needs 3:1 - this measured 2.11 on the palest palette. */
+.hero h1 em { font-style: normal; color: var(--accent-text, var(--accent)); }
 
 .hero p {
   max-width: 38rem; margin-top: 1.6rem;
@@ -103,7 +106,7 @@ main:focus { outline: none; }
 }
 .hero-links .btn:last-child { border-right: 0; }
 .btn:hover { background: var(--fg); color: var(--bg); }
-.btn.primary { background: var(--accent); color: var(--bg); }
+.btn.primary { background: var(--accent); color: var(--on-accent, var(--bg)); }
 .btn.primary:hover { background: var(--fg); color: var(--bg); }
 
 /* ---- Section heads ----------------------------------------------------------------------- */
@@ -157,10 +160,12 @@ main:focus { outline: none; }
 .card-no {
   font: 700 clamp(2rem, 4vw, 2.9rem)/1 var(--font-display);
   letter-spacing: -.04em;
-  color: var(--edge);
+  /* --edge-strong, not --edge: --edge is the hairline token and this is 46px of text, which
+     needs 3:1. Faint is the point; invisible is not. */
+  color: var(--edge-strong, var(--edge));
   transition: color 160ms ease;
 }
-.card:hover .card-no { color: var(--accent); }
+.card:hover .card-no { color: var(--accent-text, var(--accent)); }
 
 .card h2 {
   font: 650 1.15rem/1.2 var(--font-mono);
@@ -174,7 +179,7 @@ main:focus { outline: none; }
 
 .card-meta { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; margin-top: .2rem; }
 .chip { font: 600 var(--label)/1 var(--font-mono); letter-spacing: var(--tracking); text-transform: uppercase; color: var(--dim); }
-.chip.lang { color: var(--accent); }
+.chip.lang { color: var(--accent-text, var(--accent)); }
 
 .card-actions { display: flex; gap: 1.2rem; margin-top: .4rem; }
 .card-actions a {
@@ -184,7 +189,7 @@ main:focus { outline: none; }
   border-bottom: var(--rule) solid var(--accent); padding-bottom: .25rem;
   min-height: auto;
 }
-.card-actions a:hover { color: var(--accent); }
+.card-actions a:hover { color: var(--accent-text, var(--accent)); }
 
 /* The live marker: a square, not a pill. Blinking is reserved for the one thing that is live. */
 .live { display: inline-flex; align-items: center; gap: .45rem; font: 600 var(--label)/1 var(--font-mono); letter-spacing: var(--tracking); text-transform: uppercase; color: var(--ok); }
@@ -208,7 +213,7 @@ main:focus { outline: none; }
   transition: background-color 120ms ease;
 }
 .swatch:hover { background: var(--panel); }
-.swatch[aria-pressed="true"] { background: var(--panel); color: var(--accent); }
+.swatch[aria-checked="true"] { background: var(--panel); color: var(--accent-text, var(--accent)); }
 .swatch-chip { width: .8rem; height: .8rem; background: var(--accent); flex: none; }
 .swatch-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -221,7 +226,7 @@ main:focus { outline: none; }
   font: 600 var(--label)/1.6 var(--font-mono); letter-spacing: var(--tracking); text-transform: uppercase;
   color: var(--dim);
 }
-.foot a { color: var(--accent); text-decoration: none; }
+.foot a { color: var(--accent-text, var(--accent)); text-decoration: none; }
 .foot a:hover { text-decoration: underline; }
 
 /* ---- Motion ------------------------------------------------------------------------------ */
