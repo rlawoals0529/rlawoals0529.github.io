@@ -38,14 +38,15 @@ body {
 }
 
 .skip {
-  position: absolute; left: 1rem; top: -5rem; z-index: 50;
+  position: absolute; left: 1rem; top: 1rem; z-index: 50;
   background: var(--accent); color: var(--bg);
   border: var(--edge-w) solid var(--edge); border-radius: 10px;
   box-shadow: var(--lift) var(--lift) 0 0 var(--edge);
   padding: .7rem 1.1rem; font-weight: 700;
-  transition: top 140ms ease;
+  transform: translateY(-200%);
+  transition: transform 140ms ease-out;
 }
-.skip:focus { top: 1rem; }
+.skip:focus { transform: translateY(0); }
 
 :where(a, button, [tabindex]):focus-visible {
   outline: 3px solid var(--accent);
@@ -145,7 +146,7 @@ main:focus { outline: none; }
   border-radius: var(--card-radius);
   box-shadow: var(--lift) var(--lift) 0 0 var(--edge);
   overflow: hidden;
-  transition: transform 140ms cubic-bezier(.2, .8, .3, 1), box-shadow 140ms ease;
+  transition: transform 140ms cubic-bezier(.2, .8, .3, 1), box-shadow 140ms ease-out;
 }
 
 /* Lift, not scale. Scaling a card blurs its text mid-transition and nudges its neighbours;
