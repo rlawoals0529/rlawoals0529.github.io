@@ -1,9 +1,12 @@
 // Vendored from yozora/js/palette-keys.test.ts. Refresh with `node scripts/vendor.mjs` there,
 // never edit here.
-// @vitest-environment jsdom
+// @vitest-environment happy-dom
 //
 // Declared per file rather than in the host project's vitest config, so vendoring this brings
-// its own requirement with it: the only thing a project has to do is have jsdom installed.
+// its own requirement with it: the only thing a project has to do is have happy-dom installed.
+// happy-dom rather than jsdom, because jsdom reaches into undici and blows up on Node 20
+// with "webidl.util.markAsUncloneable is not a function" - which is a CI failure about a
+// keyboard test that has nothing to do with the network.
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { wirePalette } from "./palette-keys.js";
 
