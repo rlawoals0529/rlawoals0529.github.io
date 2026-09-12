@@ -1,0 +1,282 @@
+@import "./theme/palettes.css";
+@import "./theme/base.css";
+@import "./theme/type.css";
+@import "./theme/texture.css";
+@import "./theme/motion.css";
+
+/* ==========================================================================================
+   A level-select screen for a body of work.
+   
+   The shape is borrowed from game menus: thick borders, a hard offset shadow with no blur, a
+   saturated fill, and a press that moves the control onto its own shadow. Blur reads as
+   elevation and offset reads as a physical edge; this wants the second one.
+
+   Every colour is a yozora token, so all fifteen palettes work. That is the constraint that
+   keeps this honest: a hardcoded hex survives one palette and breaks fourteen.
+   ========================================================================================== */
+
+:root {
+  --edge-w: 2.5px;
+  --lift: 5px;
+  --card-radius: 16px;      /* chunky, not sharp. Sharp reads as brutalist, this is playful */
+  --tap: 44px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  /* The page never scrolls sideways, whatever a card does on hover. */
+  overflow-x: hidden;
+}
+
+/* ---- Accessibility furniture -------------------------------------------------------------- */
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: absolute; left: 1rem; top: -5rem; z-index: 50;
+  background: var(--accent); color: var(--bg);
+  border: var(--edge-w) solid var(--edge); border-radius: 10px;
+  box-shadow: var(--lift) var(--lift) 0 0 var(--edge);
+  padding: .7rem 1.1rem; font-weight: 700;
+  transition: top 140ms ease;
+}
+.skip:focus { top: 1rem; }
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+main:focus { outline: none; }
+
+/* ---- Shell -------------------------------------------------------------------------------- */
+
+.wrap {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 4.5rem) clamp(1rem, 4vw, 2.5rem) 5rem;
+}
+
+/* ---- Title ------------------------------------------------------------------------------- */
+
+.hero { margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight, 700);
+  letter-spacing: var(--display-tracking, -.6px);
+  line-height: .92;
+  font-size: clamp(2.6rem, 11vw, 6.5rem);
+  color: var(--fg);
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* The accent is a bar under the word rather than the word itself.
+   As text it measured 2.1:1 on moonlit-skyline and 2.3:1 on sakura-lake, under the 3:1 that even
+   display type needs. Underneath it is decoration: nothing has to be read off it, so it can be
+   as saturated as the palette likes. */
+.hero h1 em {
+  font-style: normal;
+  color: var(--fg);
+  position: relative;
+  white-space: nowrap;
+}
+.hero h1 em::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: .06em;
+  height: .14em;
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+.hero p {
+  max-width: 42rem;
+  margin-top: 1.1rem;
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  color: var(--dim);
+}
+.hero p strong { color: var(--fg); font-weight: 600; }
+
+.hero-links { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.6rem; }
+
+/* ---- The chunky control, used for every button and link-button --------------------------- */
+
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  min-height: var(--tap); padding: .6rem 1.1rem;
+  background: var(--panel); color: var(--fg);
+  border: var(--edge-w) solid var(--edge);
+  border-radius: 12px;
+  box-shadow: var(--lift) var(--lift) 0 0 var(--edge);
+  font: inherit; font-weight: 650; cursor: pointer; text-decoration: none;
+  /* Named properties only. `all` would animate the box-shadow colour on a palette switch and
+     flash every control on the page at once. */
+  transition: transform 90ms ease, box-shadow 90ms ease, background-color 160ms ease;
+}
+.btn:hover { background: var(--raised); }
+/* Travel equals the offset, so the control lands exactly where its shadow was. */
+.btn:active { transform: translate(var(--lift), var(--lift)); box-shadow: 0 0 0 0 var(--edge); }
+
+.btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.btn.primary:hover { background: color-mix(in srgb, var(--accent) 86%, var(--fg)); }
+
+/* ---- The grid ---------------------------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(21rem, 100%), 1fr));
+  gap: clamp(1.1rem, 2.5vw, 1.6rem);
+}
+
+/* ---- A card ------------------------------------------------------------------------------ */
+
+.card {
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--panel);
+  border: var(--edge-w) solid var(--edge);
+  border-radius: var(--card-radius);
+  box-shadow: var(--lift) var(--lift) 0 0 var(--edge);
+  overflow: hidden;
+  transition: transform 140ms cubic-bezier(.2, .8, .3, 1), box-shadow 140ms ease;
+}
+
+/* Lift, not scale. Scaling a card blurs its text mid-transition and nudges its neighbours;
+   translate is composited and touches nothing else. */
+.card:hover,
+.card:focus-within {
+  transform: translate(-3px, -3px);
+  box-shadow: calc(var(--lift) + 3px) calc(var(--lift) + 3px) 0 0 var(--accent);
+}
+
+/* The coloured band. Each card is tinted by its own index so the grid reads as a set rather
+   than fifteen of the same thing, using the palette's two accents and nothing invented. */
+.card-band {
+  height: 8px;
+  background: var(--accent);
+  border-bottom: var(--edge-w) solid var(--edge);
+}
+.card:nth-child(3n + 2) .card-band { background: var(--accent-2, var(--accent)); }
+.card:nth-child(3n + 3) .card-band { background: color-mix(in srgb, var(--accent) 55%, var(--accent-2, var(--accent))); }
+
+.card-body { padding: 1.1rem 1.2rem 1.2rem; display: flex; flex-direction: column; gap: .6rem; flex: 1; }
+
+.card h2 {
+  font-family: var(--font-mono);
+  font-size: 1.22rem; font-weight: 700; letter-spacing: -.01em;
+  color: var(--fg); margin: 0; text-transform: none;
+}
+
+/* The whole card is the hit target, via a stretched pseudo-element on the title's link. It
+   keeps one tab stop and one accessible name instead of three overlapping ones. */
+.card h2 a { color: inherit; text-decoration: none; }
+.card h2 a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+
+/* --fg, not --dim. This line is the card's whole argument, so it is primary content; --dim is
+   for metadata. Measured across all fifteen palettes, --dim on --panel lands between 2.4 and
+   4.4 against the 4.5 that 14.7px text needs, so this was failing AA almost everywhere. */
+.card p { color: var(--fg); font-size: .95rem; line-height: 1.55; margin: 0; flex: 1; }
+
+.card-meta { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+
+.chip {
+  font: 600 .72rem/1 var(--font-mono);
+  letter-spacing: .02em;
+  padding: .32rem .55rem;
+  border: 1.5px solid var(--edge); border-radius: 999px;
+  color: var(--fg); background: var(--bg);
+}
+.chip.lang { color: var(--fg); border-color: var(--accent); }
+
+.card-actions { display: flex; gap: .5rem; margin-top: .3rem; }
+
+/* Above the stretched link, or the buttons inside a card cannot be clicked. */
+.card-actions .btn { position: relative; z-index: 2; min-height: var(--tap); padding: .5rem .9rem; font-size: .87rem; --lift: 3px; }
+
+/* A card with something to open says so before you hover it. */
+.live {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font: 700 .68rem/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ok);
+}
+.live::before {
+  content: ""; width: .5rem; height: .5rem; border-radius: 50%;
+  background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 25%, transparent);
+}
+
+/* ---- Sections ---------------------------------------------------------------------------- */
+
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; margin: clamp(2.5rem, 6vw, 4rem) 0 1.2rem;
+}
+.section-head h2 {
+  font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--fg); text-transform: none; letter-spacing: var(--display-tracking, -.4px);
+  font-weight: 700; margin: 0;
+}
+.section-head p { color: var(--dim); font-size: .9rem; margin: 0; }
+
+/* ---- Palette picker ---------------------------------------------------------------------- */
+
+.palette { margin-top: clamp(3rem, 7vw, 5rem); }
+.palette-list { margin-top: 1rem; display: grid; gap: 1rem; }
+.palette-list fieldset { border: 0; padding: 0; margin: 0; }
+.palette-list legend {
+  font: 700 .7rem/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: .6rem;
+}
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: .5rem; }
+
+.swatch {
+  display: flex; align-items: center; gap: .55rem;
+  min-height: 40px; padding: .45rem .7rem;
+  background: var(--panel); color: var(--fg);
+  border: 2px solid var(--edge); border-radius: 10px;
+  font: inherit; font-size: .85rem; cursor: pointer; text-align: left;
+  transition: transform 90ms ease, box-shadow 90ms ease;
+}
+.swatch:hover { transform: translate(-2px, -2px); box-shadow: 2px 2px 0 0 var(--edge); }
+.swatch[aria-pressed="true"] { border-color: var(--accent); box-shadow: 3px 3px 0 0 var(--accent); }
+.swatch-chip { width: 1rem; height: 1rem; border-radius: 4px; background: var(--accent); border: 1.5px solid var(--edge); flex: none; }
+.swatch-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---- Foot -------------------------------------------------------------------------------- */
+
+.foot {
+  margin-top: clamp(3rem, 7vw, 5rem); padding-top: 1.5rem;
+  border-top: var(--edge-w) solid var(--edge);
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  color: var(--dim); font-size: .88rem;
+}
+.foot a { color: var(--accent); }
+
+/* ---- Entrance ---------------------------------------------------------------------------- */
+
+/* Guarded twice. `@supports` so a browser without scroll-driven animations never leaves a card
+   at opacity 0, and reduced-motion because a grid of fifteen things sliding in is a lot. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .card {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 26%;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(1.2rem); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .btn, .swatch { transition: none; }
+  .card:hover, .card:focus-within { transform: none; }
+}

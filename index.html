@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>James Kim - things I built</title>
+<meta name="description" content="Fifteen projects, eight of them running in your browser right now. A language for the back of an envelope, an eval harness that knows when a difference is noise, and a reviewer that says what it cannot answer.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:title" content="James Kim - things I built">
+<meta property="og:description" content="Fifteen projects, eight of them running in your browser right now.">
+<meta property="og:type" content="website">
+</head>
+<body class="grain">
+<a class="skip" href="#work">Skip to the projects</a>
+
+<div class="wrap">
+  <header class="hero">
+    <h1>Things I<br>actually <em>built</em>.</h1>
+    <p>
+      I build the interfaces people touch, and lately that has meant putting AI inside them.
+      Everything below is mine, and <strong>eight of them run in your browser right now</strong>
+      with nothing to install.
+    </p>
+    <div class="hero-links">
+      <a class="btn primary" href="#work">See the work</a>
+      <a class="btn" href="https://github.com/rlawoals0529">GitHub</a>
+      <a class="btn" href="#palette">Change the colours</a>
+    </div>
+  </header>
+
+  <main id="work" tabindex="-1">
+    <div class="section-head">
+      <h2>Open one</h2>
+      <p id="counts"></p>
+    </div>
+    <div class="grid" id="live-grid"></div>
+
+    <div class="section-head">
+      <h2>And the rest</h2>
+      <p>Libraries, tools and a design system. Code only, nothing to click.</p>
+    </div>
+    <div class="grid" id="rest-grid"></div>
+  </main>
+
+  <section class="palette" id="palette">
+    <div class="section-head">
+      <h2>Fifteen palettes</h2>
+      <p>From yozora, the design system every page here runs on. Your choice stays in this browser.</p>
+    </div>
+    <div class="palette-list" id="palette-list"></div>
+  </section>
+
+  <footer class="foot">
+    <span>Built by James Kim. <a href="https://github.com/rlawoals0529">github.com/rlawoals0529</a></span>
+    <span>No analytics, no cookies, nothing tracked.</span>
+  </footer>
+</div>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

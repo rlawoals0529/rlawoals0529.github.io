@@ -1,0 +1,43 @@
+name: Pages
+on:
+  push: { branches: [main] }
+  workflow_dispatch:
+  # The project list is a cache of the GitHub API, so it goes stale on its own rather than when
+  # anyone edits this repository. Once a week is often enough for a portfolio.
+  schedule: [{ cron: "0 6 * * 1" }]
+permissions: { contents: write, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: false }
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+
+      # Refresh from the API on the schedule only. On a push the committed file is what the
+      # author saw when they ran the tests, and rebuilding it here would deploy something nobody
+      # has looked at.
+      - if: github.event_name == 'schedule'
+        run: npm run refresh-projects
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+      - if: github.event_name == 'schedule'
+        run: |
+          if ! git diff --quiet src/projects.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -am "Refresh the project list from the API"
+            git push
+          fi
+
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dist }
+      - id: deploy
+        uses: actions/deploy-pages@v4
