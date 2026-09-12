@@ -30,7 +30,7 @@ const CURATED = {
   shelfwear:  { rank: 10, blurb: "Reads the files Steam already wrote to tell you what you bought and never launched." },
   "streaming-markdown": { rank: 11, blurb: "Trim a half-arrived markdown frame to the longest valid prefix, so nothing has to be un-rendered." },
   pane:       { rank: 12, blurb: "Drive a Chrome tab from a script. Caching off, fonts waited for, clips clamped, frames matched." },
-  "neon-bar": { rank: 13, blurb: "A status bar for Windows that reskins from one accent colour." },
+  "neon-bar": { rank: 13, blurb: "A status bar for Windows, on fifteen palettes. Opaque, because a see-through bar is one a grey wallpaper can erase." },
   "skill-lint": { rank: 14, blurb: "Broken references, colliding triggers and context bloat in an agent's SKILL.md." },
   "agent-skills": { rank: 15, blurb: "The skills themselves, each one written because a specific failure kept happening." },
 };

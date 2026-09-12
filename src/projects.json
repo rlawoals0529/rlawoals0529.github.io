@@ -38,7 +38,7 @@
       "llm"
     ],
     "repo": "https://github.com/rlawoals0529/discern",
-    "demo": null,
+    "demo": "https://rlawoals0529.github.io/discern/",
     "stars": 0,
     "rank": 3
   },
@@ -46,7 +46,7 @@
     "name": "depgraph",
     "blurb": "One recursive CTE walks the whole npm graph, so a package reachable forty ways is still counted once.",
     "description": "The true install cost of an npm dependency",
-    "language": "Python",
+    "language": "TypeScript",
     "topics": [
       "dependency-graph",
       "fastapi",
@@ -54,7 +54,7 @@
       "postgresql"
     ],
     "repo": "https://github.com/rlawoals0529/depgraph",
-    "demo": null,
+    "demo": "https://rlawoals0529.github.io/depgraph/",
     "stars": 0,
     "rank": 4
   },
@@ -188,7 +188,7 @@
   },
   {
     "name": "neon-bar",
-    "blurb": "A status bar for Windows that reskins from one accent colour.",
+    "blurb": "A status bar for Windows, on fifteen palettes. Opaque, because a see-through bar is one a grey wallpaper can erase.",
     "description": "A themeable Zebar status bar for Windows",
     "language": "JavaScript",
     "topics": [
@@ -214,7 +214,7 @@
       "developer-tools"
     ],
     "repo": "https://github.com/rlawoals0529/skill-lint",
-    "demo": null,
+    "demo": "https://rlawoals0529.github.io/skill-lint/",
     "stars": 0,
     "rank": 14
   },
@@ -230,7 +230,7 @@
       "code-review"
     ],
     "repo": "https://github.com/rlawoals0529/agent-skills",
-    "demo": null,
+    "demo": "https://rlawoals0529.github.io/agent-skills/",
     "stars": 0,
     "rank": 15
   }
