@@ -3,7 +3,7 @@ import projects from "./projects.json";
 import palettes from "./theme/palettes.json";
 import { grid } from "./render";
 import type { Project } from "./types";
-import { createThemeStore, grouped, type Theme } from "./lib/theme";
+import { createThemeStore, DEFAULT_THEME, grouped, type Theme } from "./lib/theme";
 import { wirePalette } from "./lib/palette-keys";
 import { attachTilt } from "./tilt";
 
@@ -33,7 +33,7 @@ if (count) count.textContent = `${all.length} projects, ${live.length} you can o
 
 /* ---- palette ------------------------------------------------------------------------------ */
 
-const store = createThemeStore(THEMES, "twilight-comet", "portfolio:theme");
+const store = createThemeStore(THEMES, DEFAULT_THEME, "portfolio:theme");
 const list = document.getElementById("palette-list");
 
 if (list) {

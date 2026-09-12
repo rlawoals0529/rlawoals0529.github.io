@@ -27,6 +27,22 @@
     "rank": 2
   },
   {
+    "name": "pc-audit",
+    "blurb": "Reads what Windows already measured about itself, and prints \"not measured\" where the rest of the genre guesses.",
+    "description": "A read-only Windows audit that will not print a number it did not measure. Profiles for frame rate, startup and battery, plus an account of the tweaks it refuses to recommend.",
+    "language": "TypeScript",
+    "topics": [
+      "accessibility",
+      "audit",
+      "gaming",
+      "optimization"
+    ],
+    "repo": "https://github.com/rlawoals0529/pc-audit",
+    "demo": "https://rlawoals0529.github.io/pc-audit/",
+    "stars": 0,
+    "rank": 3
+  },
+  {
     "name": "discern",
     "blurb": "Wilson intervals and paired McNemar, so two eval runs are not called apart when the difference is noise.",
     "description": "Eval harness that knows when a difference is noise",
@@ -40,7 +56,7 @@
     "repo": "https://github.com/rlawoals0529/discern",
     "demo": "https://rlawoals0529.github.io/discern/",
     "stars": 0,
-    "rank": 3
+    "rank": 4
   },
   {
     "name": "depgraph",
@@ -56,7 +72,7 @@
     "repo": "https://github.com/rlawoals0529/depgraph",
     "demo": "https://rlawoals0529.github.io/depgraph/",
     "stars": 0,
-    "rank": 4
+    "rank": 5
   },
   {
     "name": "decoder",
@@ -72,7 +88,7 @@
     "repo": "https://github.com/rlawoals0529/decoder",
     "demo": "https://rlawoals0529.github.io/decoder/",
     "stars": 0,
-    "rank": 5
+    "rank": 6
   },
   {
     "name": "tokenview",
@@ -88,7 +104,7 @@
     "repo": "https://github.com/rlawoals0529/tokenview",
     "demo": "https://rlawoals0529.github.io/tokenview/",
     "stars": 0,
-    "rank": 6
+    "rank": 7
   },
   {
     "name": "hikari",
@@ -104,7 +120,7 @@
     "repo": "https://github.com/rlawoals0529/hikari",
     "demo": "https://rlawoals0529.github.io/hikari/",
     "stars": 0,
-    "rank": 7
+    "rank": 8
   },
   {
     "name": "yozora",
@@ -120,7 +136,7 @@
     "repo": "https://github.com/rlawoals0529/yozora",
     "demo": "https://rlawoals0529.github.io/yozora/",
     "stars": 0,
-    "rank": 8
+    "rank": 9
   },
   {
     "name": "skill-radar",
@@ -136,7 +152,7 @@
     "repo": "https://github.com/rlawoals0529/skill-radar",
     "demo": "https://rlawoals0529.github.io/skill-radar/",
     "stars": 0,
-    "rank": 9
+    "rank": 10
   },
   {
     "name": "shelfwear",
@@ -152,7 +168,7 @@
     "repo": "https://github.com/rlawoals0529/shelfwear",
     "demo": "https://rlawoals0529.github.io/shelfwear/",
     "stars": 0,
-    "rank": 10
+    "rank": 11
   },
   {
     "name": "streaming-markdown",
@@ -168,7 +184,7 @@
     "repo": "https://github.com/rlawoals0529/streaming-markdown",
     "demo": "https://rlawoals0529.github.io/streaming-markdown/",
     "stars": 0,
-    "rank": 11
+    "rank": 12
   },
   {
     "name": "pane",
@@ -184,13 +200,13 @@
     "repo": "https://github.com/rlawoals0529/pane",
     "demo": null,
     "stars": 0,
-    "rank": 12
+    "rank": 13
   },
   {
     "name": "neon-bar",
     "blurb": "A status bar for Windows, on fifteen palettes. Opaque, because a see-through bar is one a grey wallpaper can erase.",
     "description": "A themeable Zebar status bar for Windows",
-    "language": "JavaScript",
+    "language": "TypeScript",
     "topics": [
       "customization",
       "glazewm",
@@ -200,7 +216,7 @@
     "repo": "https://github.com/rlawoals0529/neon-bar",
     "demo": "https://rlawoals0529.github.io/neon-bar/",
     "stars": 0,
-    "rank": 13
+    "rank": 14
   },
   {
     "name": "skill-lint",
@@ -216,7 +232,7 @@
     "repo": "https://github.com/rlawoals0529/skill-lint",
     "demo": "https://rlawoals0529.github.io/skill-lint/",
     "stars": 0,
-    "rank": 14
+    "rank": 15
   },
   {
     "name": "agent-skills",
@@ -232,6 +248,6 @@
     "repo": "https://github.com/rlawoals0529/agent-skills",
     "demo": "https://rlawoals0529.github.io/agent-skills/",
     "stars": 0,
-    "rank": 15
+    "rank": 16
   }
 ]
