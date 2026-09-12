@@ -25,6 +25,12 @@ export function card(p: Project): string {
 
   return `
 <article class="card">
+  <!--
+    The tilt goes on this inner layer, not on the article. A rotated element can rotate out
+    from under the cursor near its own edges, firing pointerleave and dropping the effect; the
+    article stays put, so the hit area and the stretched link never move.
+  -->
+  <div class="card-inner">
   <div class="card-band" aria-hidden="true"></div>
   <div class="card-body">
     <h2><a href="${esc(primary)}" aria-label="${esc(primaryLabel)}">${esc(p.name)}</a></h2>
@@ -35,6 +41,7 @@ export function card(p: Project): string {
       ${p.demo ? `<a class="btn primary" href="${esc(p.demo)}">Open</a>` : ""}
       <a class="btn" href="${esc(p.repo)}">Code</a>
     </div>
+  </div>
   </div>
 </article>`;
 }

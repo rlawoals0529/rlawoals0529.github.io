@@ -116,3 +116,38 @@ test("nothing scrolls sideways, at any width", async ({ page }) => {
     expect(m.doc, `overflow at ${width}`).toBeLessThanOrEqual(m.view);
   }
 });
+
+test("the cards tilt toward the cursor, and stop when asked to", async ({ page, browser }) => {
+  await ready(page);
+  const card = page.locator(".card").first();
+  // Into view first. boundingBox is page-relative and mouse.move is viewport-relative, so a card
+  // hanging below the fold has its lower half at coordinates the pointer never reaches, and the
+  // test moves to empty space while the effect works perfectly.
+  await card.scrollIntoViewIfNeeded();
+  const box = (await card.boundingBox())!;
+
+  // Polled for the SIGN each time, not merely for a change. "not equal to the previous value"
+  // is also satisfied by an empty string, so it passes when the effect has been cleared, which
+  // is the opposite of what this test is for.
+  await page.mouse.move(box.x + box.width * 0.2, box.y + box.height * 0.2);
+  await expect.poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform)).toContain("rotateX(3");
+
+  await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.8);
+  // Inverted, because the pointer crossed the centre. If it did not invert, nothing is tracking.
+  await expect.poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform)).toContain("rotateX(-3");
+
+  // Leaving clears it, or a card stays tilted with no pointer to straighten it.
+  await page.mouse.move(2, 2);
+  await expect.poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform)).toBe("");
+
+  const reduced = await browser.newContext({ reducedMotion: "reduce" });
+  const quiet = await reduced.newPage();
+  await quiet.goto("/");
+  const qc = quiet.locator(".card").first();
+  await qc.scrollIntoViewIfNeeded();
+  const qb = (await qc.boundingBox())!;
+  await quiet.mouse.move(qb.x + 20, qb.y + 20);
+  await quiet.waitForTimeout(200);
+  expect(await qc.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform)).toBe("");
+  await reduced.close();
+});

@@ -4,6 +4,7 @@ import palettes from "./theme/palettes.json";
 import { grid } from "./render";
 import type { Project } from "./types";
 import { createThemeStore, grouped, type Theme } from "./lib/theme";
+import { attachTilt } from "./tilt";
 
 const THEMES = palettes as Theme[];
 const all = projects as Project[];
@@ -21,6 +22,9 @@ const mount = (id: string, html: string) => {
 
 mount("live-grid", grid(live));
 mount("rest-grid", grid(rest));
+
+// After both grids are mounted, or it finds no cards.
+attachTilt();
 
 const count = document.getElementById("counts");
 if (count) count.textContent = `${all.length} projects, ${live.length} you can open right now`;

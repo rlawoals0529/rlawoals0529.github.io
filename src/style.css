@@ -150,12 +150,44 @@ main:focus { outline: none; }
 }
 
 /* Lift, not scale. Scaling a card blurs its text mid-transition and nudges its neighbours;
-   translate is composited and touches nothing else. */
+   translate is composited and touches nothing else.
+
+   The hover transform is the FALLBACK. With a pointer, tilt.ts writes a richer one directly to
+   the element and this never applies; without one, or with reduced motion, this is the whole
+   effect and it is enough. */
 .card:hover,
 .card:focus-within {
   transform: translate(-3px, -3px);
   box-shadow: calc(var(--lift) + 3px) calc(var(--lift) + 3px) 0 0 var(--accent);
 }
+
+/* The cursor glow. One pseudo-element reading two variables set on the card itself, rather than
+   anything inherited down to the children. Opacity only, so it composites. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--glow, 0);
+  transition: opacity 180ms ease-out;
+  background: radial-gradient(
+    18rem circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    transparent 60%
+  );
+}
+
+/* The inner layer is what tilts. It fills the card, so the card's border and shadow stay where
+   they are and only the face moves. */
+.card-inner {
+  display: flex; flex-direction: column; flex: 1;
+  border-radius: inherit; overflow: hidden;
+  transform-style: preserve-3d; backface-visibility: hidden;
+  transition: transform 140ms cubic-bezier(.2, .8, .3, 1);
+}
+.card-body, .card-band { position: relative; z-index: 1; }
 
 /* The coloured band. Each card is tinted by its own index so the grid reads as a set rather
    than fifteen of the same thing, using the palette's two accents and nothing invented. */
