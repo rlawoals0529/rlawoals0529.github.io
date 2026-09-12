@@ -32,7 +32,7 @@ if (count) count.textContent = `${all.length} projects, ${live.length} you can o
 
 /* ---- palette ------------------------------------------------------------------------------ */
 
-const store = createThemeStore(THEMES, "rain-lantern", "portfolio:theme");
+const store = createThemeStore(THEMES, "twilight-comet", "portfolio:theme");
 const list = document.getElementById("palette-list");
 
 if (list) {

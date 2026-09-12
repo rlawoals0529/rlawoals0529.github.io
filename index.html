@@ -9,6 +9,17 @@
 <meta property="og:title" content="James Kim - things I built">
 <meta property="og:description" content="Fifteen projects, eight of them running in your browser right now.">
 <meta property="og:type" content="website">
+<script>
+  /* Before first paint, so the page never shows one palette and swaps to another.
+     Every palette block in palettes.css declares its own color-scheme, so setting the attribute
+     is enough; the module later sets it again through the store, which is a no-op when they
+     agree. Wrapped because localStorage throws outright in a private window. */
+  (function () {
+    var t;
+    try { t = localStorage.getItem("portfolio:theme"); } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t || "twilight-comet");
+  })();
+</script>
 </head>
 <body class="grain">
 <a class="skip" href="#work">Skip to the projects</a>
