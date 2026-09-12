@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { describeFailures, probeContrast } from "./contrast-probe.js";
+import themes from "../src/theme/palettes.json" with { type: "json" };
 
 /**
  * The palette grid, as a control and as fifteen colours.
@@ -53,7 +54,7 @@ test("a chosen palette survives a reload, colour scheme and all", async ({ page 
 
 test("no text on the page is below AA contrast, in any palette", async ({ page }) => {
   await page.goto("/");
-  const probe = await probeContrast(page);
+  const probe = await probeContrast(page, themes);
 
   // A selector that stopped matching would make this pass by measuring nothing.
   expect(probe.styles).toBeGreaterThan(9);
