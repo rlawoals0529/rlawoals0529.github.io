@@ -3,3 +3,6 @@ dist
 test-results
 playwright-report
 .DS_Store
+
+# Test runner output. It embeds absolute paths from whichever machine ran it.
+.vitest/
