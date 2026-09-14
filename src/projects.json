@@ -2,7 +2,7 @@
   {
     "name": "FantasyStats",
     "blurb": "Fantasy football as odds. It does not sell you a projection, because a projection does not beat a season average, and it says so on the page.",
-    "description": "Fantasy football told as odds. It does not sell you a projection, because projections do not beat a season average.",
+    "description": "Fantasy football as odds, graded against what actually happened",
     "language": "TypeScript",
     "topics": [
       "data-visualization",
@@ -18,7 +18,7 @@
   {
     "name": "sidereal",
     "blurb": "A night sky you leave open while you work. Meteors are Wikipedia edits, the rings are earthquakes, and nothing in it is decorative.",
-    "description": "A night sky you leave open while you work. Every light in it is a real measured event.",
+    "description": "A night sky you leave open while you work, made of real events",
     "language": "TypeScript",
     "topics": [
       "accessibility",
@@ -206,22 +206,6 @@
     "demo": "https://rlawoals0529.github.io/shelfwear/",
     "stars": 0,
     "rank": 13
-  },
-  {
-    "name": "streaming-markdown",
-    "blurb": "Trim a half-arrived markdown frame to the longest valid prefix, so nothing has to be un-rendered.",
-    "description": "Render streamed markdown without the flicker",
-    "language": "TypeScript",
-    "topics": [
-      "llm",
-      "markdown",
-      "react",
-      "sse"
-    ],
-    "repo": "https://github.com/rlawoals0529/streaming-markdown",
-    "demo": "https://rlawoals0529.github.io/streaming-markdown/",
-    "stars": 0,
-    "rank": 14
   },
   {
     "name": "pane",
