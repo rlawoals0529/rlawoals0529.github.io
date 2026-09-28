@@ -270,5 +270,38 @@
     "demo": "https://rlawoals0529.github.io/agent-skills/",
     "stars": 0,
     "rank": 18
+  },
+  {
+    "name": "arc-agi-3-agent",
+    "blurb": "Agent for ARC-AGI-3 focused on environment interaction, reasoning, rollout analysis, and measurable performance.",
+    "description": "Agent for ARC-AGI-3 focused on environment interaction, reasoning, rollout analysis, and measurable performance.",
+    "language": "Python",
+    "topics": [],
+    "repo": "https://github.com/rlawoals0529/arc-agi-3-agent",
+    "demo": null,
+    "stars": 0,
+    "rank": 900
+  },
+  {
+    "name": "ev-purchase-prediction",
+    "blurb": "Kaggle tabular ML project for EV purchase prediction using cross-validation, feature experiments, and model ensembling.",
+    "description": "Kaggle tabular ML project for EV purchase prediction using cross-validation, feature experiments, and model ensembling.",
+    "language": "Python",
+    "topics": [],
+    "repo": "https://github.com/rlawoals0529/ev-purchase-prediction",
+    "demo": null,
+    "stars": 0,
+    "rank": 900
+  },
+  {
+    "name": "gemma-4-developer-agent",
+    "blurb": "Coding agent built for the Google Gemma 4 Developer Agent Competition, with tool use, evaluation, and benchmark-driven iteration.",
+    "description": "Coding agent built for the Google Gemma 4 Developer Agent Competition, with tool use, evaluation, and benchmark-driven iteration.",
+    "language": "Python",
+    "topics": [],
+    "repo": "https://github.com/rlawoals0529/gemma-4-developer-agent",
+    "demo": null,
+    "stars": 0,
+    "rank": 900
   }
 ]
