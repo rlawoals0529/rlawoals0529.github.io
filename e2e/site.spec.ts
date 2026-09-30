@@ -72,6 +72,15 @@ test("the skip link moves focus, not only the viewport", async ({ page }) => {
   expect(await page.evaluate(() => document.activeElement?.id)).toBe("work");
 });
 
+test("contact replaces the resume link and exposes the public contact handles", async ({ page }) => {
+  await ready(page);
+  await expect(page.getByRole("link", { name: "Contact me" })).toHaveAttribute("href", "#contact");
+  await expect(page.getByText("rlawoals00529@gmail.com")).toBeVisible();
+  await expect(page.getByText("jaemin", { exact: true })).toBeVisible();
+  await expect(page.getByText("Open to work", { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Resume" })).toHaveCount(0);
+});
+
 test("a palette choice repaints the page and survives a reload", async ({ page }) => {
   await ready(page);
   const before = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
