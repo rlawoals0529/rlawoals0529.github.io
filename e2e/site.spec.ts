@@ -129,16 +129,16 @@ test("constellation nodes never collide in wide and narrow layouts", async ({ pa
 
     for (let i = 0; i < boxes.length; i += 1) {
       for (let j = i + 1; j < boxes.length; j += 1) {
-        const a = boxes[i];
-        const b = boxes[j];
+        const a = boxes[i]!;
+        const b = boxes[j]!;
         const overlaps = a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
         expect(overlaps, `constellation nodes ${i} and ${j} overlap at ${width}px`).toBe(false);
       }
     }
 
     for (const box of boxes) {
-      expect(box.left).toBeGreaterThanOrEqual(cardBox!.left - 1);
-      expect(box.right).toBeLessThanOrEqual(cardBox!.right + 1);
+      expect(box.left).toBeGreaterThanOrEqual(cardBox!.x - 1);
+      expect(box.right).toBeLessThanOrEqual(cardBox!.x + cardBox!.width + 1);
     }
   }
 });
@@ -154,7 +154,7 @@ test("narrow constellation uses the route layout instead of squeezing the networ
 
   expect(centerBox).not.toBeNull();
   expect(projectBox).not.toBeNull();
-  expect(projectBox!.top).toBeGreaterThan(centerBox!.bottom);
+  expect(projectBox!.y).toBeGreaterThan(centerBox!.y + centerBox!.height);
   await expect(page.locator(".constellation-map .map-line").first()).toHaveCSS("display", "none");
 });
 
