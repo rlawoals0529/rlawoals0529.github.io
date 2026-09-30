@@ -22,9 +22,16 @@ export function card(p: Project, index = 0): string {
     p.language ? `<span class="chip lang">${esc(p.language)}</span>` : "",
     ...p.topics.map((t) => `<span class="chip">${esc(t)}</span>`),
   ].join("");
+  const searchText = [p.name, p.blurb, p.description, p.language ?? "", ...p.topics].join(" ").toLowerCase();
 
   return `
-<article class="card">
+<article
+  class="card"
+  data-live="${p.demo ? "true" : "false"}"
+  data-language="${esc((p.language ?? "").toLowerCase())}"
+  data-topics="${esc(p.topics.join(" ").toLowerCase())}"
+  data-search="${esc(searchText)}"
+>
   <a class="card-hit" href="${esc(primary)}" aria-label="${esc(primaryLabel)}"></a>
   <!--
     The tilt goes on this inner layer, not on the article. The separate overlay link stays
