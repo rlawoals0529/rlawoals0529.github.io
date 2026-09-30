@@ -39,15 +39,15 @@ test("the whole card is the target, not the title text", async ({ page }) => {
   expect(hit).toBeTruthy();
 });
 
-test("a card carries exactly one stretched link, so it has one accessible name", async ({ page }) => {
+test("a card carries exactly one overlay link, so it has one primary accessible target", async ({ page }) => {
   await ready(page);
-  const stretched = await page.evaluate(
-    () =>
-      [...document.querySelectorAll(".card")].map(
-        (c) => [...c.querySelectorAll("a")].filter((a) => getComputedStyle(a, "::after").position === "absolute").length,
-      ),
-  );
-  expect(new Set(stretched)).toEqual(new Set([1]));
+  const cards = page.locator(".card");
+  const count = await cards.count();
+  for (let i = 0; i < count; i += 1) {
+    const hit = cards.nth(i).locator("a.card-hit");
+    await expect(hit).toHaveCount(1);
+    expect(await hit.getAttribute("aria-label")).toBeTruthy();
+  }
 });
 
 test("no demo link is a dead one", async ({ page, request }) => {
