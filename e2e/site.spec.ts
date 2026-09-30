@@ -7,9 +7,10 @@ import { fileURLToPath } from "node:url";
  * about JSON modules than Vite is, and an import attribute here would not survive the tsconfig
  * the app is built with. Reading it keeps one source of truth without fighting two loaders.
  */
+const HIDDEN_PROJECTS = new Set(["arc-agi-3-agent"]);
 const projects: { name: string; demo: string | null }[] = JSON.parse(
   readFileSync(fileURLToPath(new URL("../src/projects.json", import.meta.url)), "utf8"),
-);
+).filter((p: { name: string }) => !HIDDEN_PROJECTS.has(p.name.toLowerCase()));
 const live = projects.filter((p) => p.demo);
 
 async function ready(page: Page) {
