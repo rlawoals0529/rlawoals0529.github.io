@@ -8,7 +8,8 @@ import { wirePalette } from "./lib/palette-keys";
 import { attachTilt } from "./tilt";
 
 const THEMES = palettes as Theme[];
-const all = projects as Project[];
+const HIDDEN_PROJECTS = new Set(["arc-agi-3-agent"]);
+const all = (projects as Project[]).filter((project) => !HIDDEN_PROJECTS.has(project.name.toLowerCase()));
 
 /* ---- the grid ----------------------------------------------------------------------------- */
 
