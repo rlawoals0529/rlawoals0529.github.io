@@ -537,7 +537,13 @@ main:focus { outline: none; }
   color: var(--fg);
   text-decoration: none;
   box-shadow: 0 8px 20px color-mix(in srgb, var(--fg) 5%, transparent);
-  transition: transform 140ms ease, border-color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    background-color 140ms ease,
+    box-shadow 140ms ease,
+    opacity 140ms ease,
+    filter 140ms ease;
 }
 
 .node-star {
@@ -613,6 +619,174 @@ main:focus { outline: none; }
   transform-origin: right center;
 }
 
+.preview-visual {
+  position: relative;
+  width: 100%;
+  height: 42px;
+  margin-bottom: .58rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--surface-border));
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 78% 22%, color-mix(in srgb, var(--accent) 11%, transparent), transparent 45%),
+    color-mix(in srgb, var(--panel) 72%, var(--bg));
+}
+
+.preview-visual i {
+  position: absolute;
+  display: block;
+}
+
+/* Ariadne: verified/uncertain evidence connected as a tiny source graph. */
+.preview-ariadne .evidence-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 9px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.preview-ariadne .evidence-a { left: 18%; top: 14px; }
+.preview-ariadne .evidence-b {
+  left: 48%;
+  top: 8px;
+  background: var(--fg);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--fg) 22%, transparent);
+}
+.preview-ariadne .evidence-c {
+  right: 16%;
+  bottom: 8px;
+  background: var(--accent-2, var(--accent));
+}
+
+.preview-ariadne .evidence-link {
+  height: 1px;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--fg) 35%, transparent));
+}
+
+.preview-ariadne .evidence-link-a {
+  width: 31%;
+  left: 21%;
+  top: 18px;
+  transform: rotate(-10deg);
+}
+
+.preview-ariadne .evidence-link-b {
+  width: 33%;
+  left: 51%;
+  top: 13px;
+  transform: rotate(19deg);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--fg) 35%, transparent), var(--accent-2, var(--accent)));
+}
+
+/* FantasyStats: a small distribution, emphasizing range rather than a single point. */
+.preview-fantasy {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 12px 9px;
+}
+
+.preview-fantasy .distribution-bar {
+  position: relative;
+  width: 11px;
+  border-radius: 4px 4px 2px 2px;
+  background: linear-gradient(to top, var(--accent), var(--accent-2, var(--accent)));
+  opacity: .74;
+}
+
+.preview-fantasy .bar-1 { height: 24%; opacity: .36; }
+.preview-fantasy .bar-2 { height: 48%; opacity: .58; }
+.preview-fantasy .bar-3 { height: 78%; }
+.preview-fantasy .bar-4 { height: 58%; opacity: .68; }
+.preview-fantasy .bar-5 { height: 34%; opacity: .46; }
+
+.preview-fantasy .distribution-baseline {
+  left: 12px;
+  right: 12px;
+  bottom: 8px;
+  height: 1px;
+  background: color-mix(in srgb, var(--fg) 20%, var(--surface-border));
+}
+
+/* sidereal: orbit + measured-event points. */
+.preview-sidereal {
+  background:
+    radial-gradient(circle at 72% 25%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 42%),
+    color-mix(in srgb, var(--bg) 62%, var(--panel));
+}
+
+.preview-sidereal .micro-orbit {
+  left: 50%;
+  top: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-14deg);
+}
+
+.preview-sidereal .orbit-a { width: 62%; height: 46%; }
+.preview-sidereal .orbit-b {
+  width: 42%;
+  height: 70%;
+  transform: translate(-50%, -50%) rotate(27deg);
+  border-color: color-mix(in srgb, var(--accent-2, var(--accent)) 32%, transparent);
+}
+
+.preview-sidereal .micro-star {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--fg);
+  box-shadow: 0 0 7px currentColor;
+}
+
+.preview-sidereal .micro-star-a { left: 17%; top: 10px; }
+.preview-sidereal .micro-star-b { right: 18%; bottom: 9px; color: var(--accent); background: var(--accent); }
+.preview-sidereal .micro-star-c { right: 31%; top: 8px; width: 2px; height: 2px; }
+
+.preview-sidereal .micro-satellite {
+  left: 61%;
+  top: 49%;
+  width: 7px;
+  height: 4px;
+  border-radius: 2px;
+  transform: rotate(-18deg);
+  background: var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 36%, transparent);
+}
+
+/* shelfwear: a tiny, deliberately uneven game shelf. */
+.preview-shelfwear {
+  display: flex;
+  align-items: end;
+  gap: 5px;
+  padding: 8px 12px 9px;
+}
+
+.preview-shelfwear .micro-shelf {
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  height: 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fg) 24%, var(--surface-border));
+}
+
+.preview-shelfwear .micro-book {
+  position: relative;
+  width: 12px;
+  border: 1px solid color-mix(in srgb, var(--fg) 15%, var(--surface-border));
+  border-radius: 3px 3px 1px 1px;
+  background: linear-gradient(to top, color-mix(in srgb, var(--accent) 20%, var(--panel)), color-mix(in srgb, var(--accent-2, var(--accent)) 18%, var(--panel)));
+}
+
+.preview-shelfwear .book-a { height: 58%; }
+.preview-shelfwear .book-b { height: 84%; }
+.preview-shelfwear .book-c { height: 67%; }
+.preview-shelfwear .book-d { height: 76%; }
+
 .node-preview b,
 .node-preview span,
 .node-preview em {
@@ -635,6 +809,31 @@ main:focus { outline: none; }
   color: var(--accent-text, var(--accent));
   font: 760 .66rem/1.2 var(--font-soft);
   font-style: normal;
+}
+
+.constellation-map:has(.map-node:hover) .map-node:not(:hover),
+.constellation-map:has(.map-node:focus-visible) .map-node:not(:focus-visible) {
+  opacity: .34;
+  filter: saturate(.55) brightness(.9);
+}
+
+.constellation-map:has(.map-node:hover) .constellation-star,
+.constellation-map:has(.map-node:focus-visible) .constellation-star {
+  opacity: .14;
+}
+
+.constellation-map:has(.map-node:hover) .map-line,
+.constellation-map:has(.map-node:focus-visible) .map-line {
+  opacity: .1;
+}
+
+.constellation-map:has(.map-node:hover) .constellation-center,
+.constellation-map:has(.map-node:focus-visible) .constellation-center {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--surface-border));
+  box-shadow:
+    0 14px 32px color-mix(in srgb, var(--fg) 7%, transparent),
+    0 0 0 8px color-mix(in srgb, var(--accent) 7%, transparent),
+    0 0 30px color-mix(in srgb, var(--accent) 13%, transparent);
 }
 
 .map-node:hover,
@@ -2369,6 +2568,26 @@ a.contact-item:hover {
 
   .hero[data-hero-variant="constellation"] .constellation-star:nth-child(even) {
     animation: constellation-twinkle 5.4s 900ms ease-in-out infinite alternate;
+  }
+
+  .map-node:hover .preview-fantasy .distribution-bar,
+  .map-node:focus-visible .preview-fantasy .distribution-bar {
+    animation: micro-bars 900ms ease-in-out infinite alternate;
+  }
+
+  .map-node:hover .preview-sidereal .micro-satellite,
+  .map-node:focus-visible .preview-sidereal .micro-satellite {
+    animation: micro-satellite 1.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes micro-bars {
+    from { filter: brightness(.92); }
+    to { filter: brightness(1.12); }
+  }
+
+  @keyframes micro-satellite {
+    from { translate: -2px 1px; }
+    to { translate: 3px -2px; }
   }
 
   @keyframes constellation-pulse {
