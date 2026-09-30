@@ -398,7 +398,7 @@ main:focus { outline: none; }
   padding: .38rem .48rem;
   border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--surface-border));
   border-radius: 8px;
-  color: var(--accent-text, var(--accent));
+  color: var(--fg);
   background: color-mix(in srgb, var(--accent) 7%, transparent);
   font: 800 .64rem/1 var(--font-mono);
   letter-spacing: .04em;
