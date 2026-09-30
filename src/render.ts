@@ -25,14 +25,14 @@ export function card(p: Project, index = 0): string {
 
   return `
 <article class="card">
+  <a class="card-hit" href="${esc(primary)}" aria-label="${esc(primaryLabel)}"></a>
   <!--
-    The tilt goes on this inner layer, not on the article. A rotated element can rotate out
-    from under the cursor near its own edges, firing pointerleave and dropping the effect; the
-    article stays put, so the hit area and the stretched link never move.
+    The tilt goes on this inner layer, not on the article. The separate overlay link stays
+    stationary, so the entire card remains a reliable hit target while its contents can tilt.
   -->
   <div class="card-inner">
     <span class="card-no" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
-    <h2><a href="${esc(primary)}" aria-label="${esc(primaryLabel)}">${esc(p.name)}</a></h2>
+    <h2>${esc(p.name)}</h2>
     ${p.demo ? `<span class="live">live</span>` : ""}
     <p>${esc(p.blurb)}</p>
     <div class="card-meta">${chips}</div>
