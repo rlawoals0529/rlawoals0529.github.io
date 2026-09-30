@@ -18,24 +18,25 @@ const USER = "rlawoals0529";
 
 /** Rank, and the line that says why it is worth a click. Lower rank shows first. */
 const CURATED = {
-  FantasyStats: { rank: 1, blurb: "Fantasy football as odds. It does not sell you a projection, because a projection does not beat a season average, and it says so on the page." },
-  sidereal:   { rank: 2, blurb: "A night sky you leave open while you work. Meteors are Wikipedia edits, the rings are earthquakes, and nothing in it is decorative." },
-  secondread: { rank: 3, blurb: "Six checks over a real syntax tree. It asks the questions a reviewer would, and says what it cannot answer itself." },
-  notepad:    { rank: 4, blurb: "A language for the back of an envelope. Units, money and dates, each line worked out in the margin." },
-  "pc-audit": { rank: 5, blurb: "Reads what Windows already measured about itself, and prints \"not measured\" where the rest of the genre guesses." },
-  discern:    { rank: 6, blurb: "Wilson intervals and paired McNemar, so two eval runs are not called apart when the difference is noise." },
-  depgraph:   { rank: 7, blurb: "One recursive CTE walks the whole npm graph, so a package reachable forty ways is still counted once." },
-  decoder:    { rank: 8, blurb: "Paste a token, a hash, a timestamp. It names it, opens it, and keeps opening what it finds inside." },
-  tokenview:  { rank: 9, blurb: "Watch a sentence break into the pieces a model reads, then watch its meaning land on a map." },
-  hikari:     { rank: 10, blurb: "Desktop widgets that are a folder and two files. A capability has to be asked for, and is refused by default." },
-  yozora:     { rank: 11, blurb: "Fifteen palettes, a type scale and the texture rules, as one small system every page here runs on." },
-  "skill-radar": { rank: 12, blurb: "Which agent skill actually fires for a given sentence, and which two are quietly competing." },
-  shelfwear:  { rank: 13, blurb: "Reads the files Steam already wrote to tell you what you bought and never launched." },
+  Ariadne:    { rank: 1, blurb: "Follow a username across the public web without pretending every page response is proof.", demo: "https://ariadne.rlawoals0529.workers.dev", topics: ["public-web", "evidence", "cloudflare-workers", "react"] },
+  FantasyStats: { rank: 2, blurb: "Fantasy football as odds. It does not sell you a projection, because a projection does not beat a season average, and it says so on the page." },
+  sidereal:   { rank: 3, blurb: "A night sky you leave open while you work. Meteors are Wikipedia edits, the rings are earthquakes, and nothing in it is decorative." },
+  shelfwear:  { rank: 4, blurb: "Reads the files Steam already wrote to tell you what you bought and never launched.", demo: "https://shelfwear.rlawoals0529.workers.dev" },
+  secondread: { rank: 5, blurb: "Six checks over a real syntax tree. It asks the questions a reviewer would, and says what it cannot answer itself." },
+  notepad:    { rank: 6, blurb: "A language for the back of an envelope. Units, money and dates, each line worked out in the margin." },
+  "pc-audit": { rank: 7, blurb: "Reads what Windows already measured about itself, and prints \"not measured\" where the rest of the genre guesses." },
+  discern:    { rank: 8, blurb: "Wilson intervals and paired McNemar, so two eval runs are not called apart when the difference is noise." },
+  depgraph:   { rank: 9, blurb: "One recursive CTE walks the whole npm graph, so a package reachable forty ways is still counted once." },
+  decoder:    { rank: 10, blurb: "Paste a token, a hash, a timestamp. It names it, opens it, and keeps opening what it finds inside." },
+  tokenview:  { rank: 11, blurb: "Watch a sentence break into the pieces a model reads, then watch its meaning land on a map." },
+  hikari:     { rank: 12, blurb: "Desktop widgets that are a folder and two files. A capability has to be asked for, and is refused by default." },
+  yozora:     { rank: 13, blurb: "Fifteen palettes, a type scale and the texture rules, as one small system every page here runs on." },
+  "skill-radar": { rank: 14, blurb: "Which agent skill actually fires for a given sentence, and which two are quietly competing." },
   "streaming-markdown": { rank: 14, blurb: "Trim a half-arrived markdown frame to the longest valid prefix, so nothing has to be un-rendered." },
-  pane:       { rank: 15, blurb: "Drive a Chrome tab from a script. Caching off, fonts waited for, clips clamped, frames matched." },
-  "neon-bar": { rank: 16, blurb: "A status bar for Windows, on fifteen palettes. Opaque, because a see-through bar is one a grey wallpaper can erase." },
-  "skill-lint": { rank: 17, blurb: "Broken references, colliding triggers and context bloat in an agent's SKILL.md." },
-  "agent-skills": { rank: 18, blurb: "The skills themselves, each one written because a specific failure kept happening." },
+  pane:       { rank: 16, blurb: "Drive a Chrome tab from a script. Caching off, fonts waited for, clips clamped, frames matched." },
+  "neon-bar": { rank: 17, blurb: "A status bar for Windows, on fifteen palettes. Opaque, because a see-through bar is one a grey wallpaper can erase." },
+  "skill-lint": { rank: 18, blurb: "Broken references, colliding triggers and context bloat in an agent's SKILL.md." },
+  "agent-skills": { rank: 19, blurb: "The skills themselves, each one written because a specific failure kept happening." },
 };
 const HIDDEN_PROJECTS = new Set(["streaming-markdown", "arc-agi-3-agent"]);
 
@@ -66,10 +67,10 @@ const projects = repos
       blurb: curated?.blurb ?? r.description ?? "",
       description: r.description ?? "",
       language: r.language ?? null,
-      topics: (r.topics ?? []).slice(0, 4),
+      topics: curated?.topics ?? (r.topics ?? []).slice(0, 4),
       repo: r.html_url,
-      // A homepage is a live thing you can open. Treat an empty string as absent.
-      demo: r.homepage && r.homepage.trim() !== "" ? r.homepage : null,
+      // Curated overrides cover live deployments that are intentionally not set as the repo homepage.
+      demo: curated?.demo ?? (r.homepage && r.homepage.trim() !== "" ? r.homepage : null),
       stars: r.stargazers_count,
       rank: curated?.rank ?? 900,
     };
