@@ -73,12 +73,45 @@ test("the skip link moves focus, not only the viewport", async ({ page }) => {
 test("contact exposes the public handles without the old Discord discriminator", async ({ page }) => {
   await ready(page);
   await expect(page.getByRole("link", { name: "Contact me" })).toHaveAttribute("href", "#contact");
+  await expect(page.getByRole("heading", { name: "Say hello." })).toBeVisible();
   await expect(page.getByText("rlawoals00529@gmail.com")).toBeVisible();
   await expect(page.getByText("jaemin", { exact: true })).toBeVisible();
   await expect(page.getByText("Open to work", { exact: true }).first()).toBeVisible();
   await expect(page.getByRole("button", { name: "Copy Discord username jaemin" })).toBeVisible();
   await expect(page.locator("#contact")).not.toContainText("#");
   await expect(page.getByRole("link", { name: "Resume" })).toHaveCount(0);
+});
+
+test("featured work exposes deeper project decisions without forcing navigation", async ({ page }) => {
+  await ready(page);
+  await expect(page.locator(".spotlight-card")).toHaveCount(4);
+  const ariadne = page.locator(".spotlight-card").filter({ hasText: "Ariadne" });
+  await expect(ariadne).toContainText("Evidence-aware search");
+  await ariadne.locator("summary").click();
+  await expect(ariadne).toContainText("Exact first-party adapters");
+  await expect(ariadne.getByRole("link", { name: /Open project/ })).toHaveAttribute(
+    "href",
+    "https://ariadne.rlawoals0529.workers.dev",
+  );
+});
+
+test("project explorer filters and searches without losing the full index", async ({ page }) => {
+  await ready(page);
+  const allCards = page.locator(".card");
+  await expect(allCards).toHaveCount(projects.length);
+
+  await page.getByRole("button", { name: "Python", exact: true }).click();
+  const visiblePython = page.locator('.card[data-language="python"]:visible');
+  expect(await visiblePython.count()).toBeGreaterThan(0);
+  await expect(page.locator('.card:not([data-language="python"]):visible')).toHaveCount(0);
+
+  await page.getByRole("button", { name: "All", exact: true }).click();
+  await page.locator("#project-search").fill("Ariadne");
+  await expect(page.locator(".card:visible")).toHaveCount(1);
+  await expect(page.locator(".card:visible")).toContainText("Ariadne");
+
+  await page.locator("#project-search").fill("");
+  await expect(page.locator(".card:visible")).toHaveCount(projects.length);
 });
 
 test("palette picker is a disclosure and the choice survives a reload", async ({ page }) => {
