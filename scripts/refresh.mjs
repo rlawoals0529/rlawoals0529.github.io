@@ -6,11 +6,9 @@
  * private, or missing one that went public. The API is the truth; this file is a cache of it,
  * committed so the site builds without a token and renders identically offline.
  *
- * Two things are NOT taken from the API, because it does not know them:
- *   order  - how much each project is worth showing, which is a judgement
- *   blurb  - the one line under the title, which is written rather than generated
- * Both live in CURATED below, keyed by repo name. A repo with no entry still renders, at the
- * end, using its GitHub description. Silence is better than dropping it.
+ * Presentation details that GitHub does not know (order, portfolio blurb, and occasional
+ * deployment/topic overrides) live in CURATED below, keyed by repo name. A repo with no
+ * entry still renders at the end using its GitHub metadata. Silence is better than dropping it.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -18,7 +16,7 @@ const USER = "rlawoals0529";
 
 /** Rank, and the line that says why it is worth a click. Lower rank shows first. */
 const CURATED = {
-  Ariadne:    { rank: 1, blurb: "Follow a username across the public web without pretending every page response is proof.", demo: "https://ariadne.rlawoals0529.workers.dev", topics: ["public-web", "evidence", "cloudflare-workers", "react"] },
+  Ariadne:    { rank: 1, blurb: "Follow a username across the public web without pretending every page response is proof.", description: "Evidence-aware public username search with explicit confidence and provenance.", demo: "https://ariadne.rlawoals0529.workers.dev", topics: ["public-web", "evidence", "cloudflare-workers", "react"] },
   FantasyStats: { rank: 2, blurb: "Fantasy football as odds. It does not sell you a projection, because a projection does not beat a season average, and it says so on the page." },
   sidereal:   { rank: 3, blurb: "A night sky you leave open while you work. Meteors are Wikipedia edits, the rings are earthquakes, and nothing in it is decorative." },
   shelfwear:  { rank: 4, blurb: "Reads the files Steam already wrote to tell you what you bought and never launched.", demo: "https://shelfwear.rlawoals0529.workers.dev" },
@@ -32,7 +30,7 @@ const CURATED = {
   hikari:     { rank: 12, blurb: "Desktop widgets that are a folder and two files. A capability has to be asked for, and is refused by default." },
   yozora:     { rank: 13, blurb: "Fifteen palettes, a type scale and the texture rules, as one small system every page here runs on." },
   "skill-radar": { rank: 14, blurb: "Which agent skill actually fires for a given sentence, and which two are quietly competing." },
-  "streaming-markdown": { rank: 14, blurb: "Trim a half-arrived markdown frame to the longest valid prefix, so nothing has to be un-rendered." },
+  "streaming-markdown": { rank: 15, blurb: "Trim a half-arrived markdown frame to the longest valid prefix, so nothing has to be un-rendered." },
   pane:       { rank: 16, blurb: "Drive a Chrome tab from a script. Caching off, fonts waited for, clips clamped, frames matched." },
   "neon-bar": { rank: 17, blurb: "A status bar for Windows, on fifteen palettes. Opaque, because a see-through bar is one a grey wallpaper can erase." },
   "skill-lint": { rank: 18, blurb: "Broken references, colliding triggers and context bloat in an agent's SKILL.md." },
@@ -65,7 +63,7 @@ const projects = repos
     return {
       name: r.name,
       blurb: curated?.blurb ?? r.description ?? "",
-      description: r.description ?? "",
+      description: curated?.description ?? r.description ?? "",
       language: r.language ?? null,
       topics: curated?.topics ?? (r.topics ?? []).slice(0, 4),
       repo: r.html_url,
