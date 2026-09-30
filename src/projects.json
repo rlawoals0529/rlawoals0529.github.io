@@ -1,5 +1,21 @@
 [
   {
+    "name": "Ariadne",
+    "blurb": "Follow a username across the public web without pretending every page response is proof.",
+    "description": "Evidence-aware public username search with explicit confidence and provenance.",
+    "language": "TypeScript",
+    "topics": [
+      "public-web",
+      "evidence",
+      "cloudflare-workers",
+      "react"
+    ],
+    "repo": "https://github.com/rlawoals0529/Ariadne",
+    "demo": "https://ariadne.rlawoals0529.workers.dev",
+    "stars": 0,
+    "rank": 1
+  },
+  {
     "name": "FantasyStats",
     "blurb": "Fantasy football as odds. It does not sell you a projection, because a projection does not beat a season average, and it says so on the page.",
     "description": "Fantasy football as odds, graded against what actually happened",
@@ -13,7 +29,7 @@
     "repo": "https://github.com/rlawoals0529/FantasyStats",
     "demo": "https://fantasystats.rlawoals0529.workers.dev",
     "stars": 0,
-    "rank": 1
+    "rank": 2
   },
   {
     "name": "sidereal",
@@ -29,167 +45,7 @@
     "repo": "https://github.com/rlawoals0529/sidereal",
     "demo": "https://sidereal.rlawoals0529.workers.dev",
     "stars": 0,
-    "rank": 2
-  },
-  {
-    "name": "secondread",
-    "blurb": "Six checks over a real syntax tree. It asks the questions a reviewer would, and says what it cannot answer itself.",
-    "description": "Paste code, find out what a reviewer would ask",
-    "language": "TypeScript",
-    "topics": [
-      "ast",
-      "code-review",
-      "developer-tools",
-      "static-analysis"
-    ],
-    "repo": "https://github.com/rlawoals0529/secondread",
-    "demo": "https://rlawoals0529.github.io/secondread/",
-    "stars": 0,
     "rank": 3
-  },
-  {
-    "name": "notepad",
-    "blurb": "A language for the back of an envelope. Units, money and dates, each line worked out in the margin.",
-    "description": "Type maths in prose, answers in the margin",
-    "language": "TypeScript",
-    "topics": [
-      "calculator",
-      "developer-tools",
-      "parser",
-      "react"
-    ],
-    "repo": "https://github.com/rlawoals0529/notepad",
-    "demo": "https://rlawoals0529.github.io/notepad/",
-    "stars": 0,
-    "rank": 4
-  },
-  {
-    "name": "pc-audit",
-    "blurb": "Reads what Windows already measured about itself, and prints \"not measured\" where the rest of the genre guesses.",
-    "description": "What your Windows machine is actually costing you",
-    "language": "TypeScript",
-    "topics": [
-      "accessibility",
-      "audit",
-      "gaming",
-      "optimization"
-    ],
-    "repo": "https://github.com/rlawoals0529/pc-audit",
-    "demo": "https://rlawoals0529.github.io/pc-audit/",
-    "stars": 0,
-    "rank": 5
-  },
-  {
-    "name": "discern",
-    "blurb": "Wilson intervals and paired McNemar, so two eval runs are not called apart when the difference is noise.",
-    "description": "Eval harness that knows when a difference is noise",
-    "language": "Python",
-    "topics": [
-      "ab-testing",
-      "confidence-intervals",
-      "evaluation",
-      "llm"
-    ],
-    "repo": "https://github.com/rlawoals0529/discern",
-    "demo": "https://rlawoals0529.github.io/discern/",
-    "stars": 0,
-    "rank": 6
-  },
-  {
-    "name": "depgraph",
-    "blurb": "One recursive CTE walks the whole npm graph, so a package reachable forty ways is still counted once.",
-    "description": "The true install cost of an npm dependency",
-    "language": "TypeScript",
-    "topics": [
-      "dependency-graph",
-      "fastapi",
-      "npm",
-      "postgresql"
-    ],
-    "repo": "https://github.com/rlawoals0529/depgraph",
-    "demo": "https://rlawoals0529.github.io/depgraph/",
-    "stars": 0,
-    "rank": 7
-  },
-  {
-    "name": "decoder",
-    "blurb": "Paste a token, a hash, a timestamp. It names it, opens it, and keeps opening what it finds inside.",
-    "description": "Paste anything, find out what it is",
-    "language": "TypeScript",
-    "topics": [
-      "base64",
-      "developer-tools",
-      "jwt",
-      "offline-first"
-    ],
-    "repo": "https://github.com/rlawoals0529/decoder",
-    "demo": "https://rlawoals0529.github.io/decoder/",
-    "stars": 0,
-    "rank": 8
-  },
-  {
-    "name": "tokenview",
-    "blurb": "Watch a sentence break into the pieces a model reads, then watch its meaning land on a map.",
-    "description": "Tokenizer and embedding map for language models",
-    "language": "TypeScript",
-    "topics": [
-      "browser-ml",
-      "educational",
-      "embeddings",
-      "react"
-    ],
-    "repo": "https://github.com/rlawoals0529/tokenview",
-    "demo": "https://rlawoals0529.github.io/tokenview/",
-    "stars": 0,
-    "rank": 9
-  },
-  {
-    "name": "hikari",
-    "blurb": "Desktop widgets that are a folder and two files. A capability has to be asked for, and is refused by default.",
-    "description": "Desktop widgets in HTML, CSS and JavaScript",
-    "language": "JavaScript",
-    "topics": [
-      "customization",
-      "desktop-widgets",
-      "electron",
-      "rainmeter-alternative"
-    ],
-    "repo": "https://github.com/rlawoals0529/hikari",
-    "demo": "https://rlawoals0529.github.io/hikari/",
-    "stars": 0,
-    "rank": 10
-  },
-  {
-    "name": "yozora",
-    "blurb": "Fifteen palettes, a type scale and the texture rules, as one small system every page here runs on.",
-    "description": "Fifteen nocturnal colour themes for VS Code and terminals",
-    "language": "CSS",
-    "topics": [
-      "anime",
-      "color-theme",
-      "dark-theme",
-      "terminal-theme"
-    ],
-    "repo": "https://github.com/rlawoals0529/yozora",
-    "demo": "https://rlawoals0529.github.io/yozora/",
-    "stars": 0,
-    "rank": 11
-  },
-  {
-    "name": "skill-radar",
-    "blurb": "Which agent skill actually fires for a given sentence, and which two are quietly competing.",
-    "description": "Which agent skill actually fires, and why",
-    "language": "TypeScript",
-    "topics": [
-      "agent-skills",
-      "ai-agents",
-      "browser-ml",
-      "claude-code"
-    ],
-    "repo": "https://github.com/rlawoals0529/skill-radar",
-    "demo": "https://rlawoals0529.github.io/skill-radar/",
-    "stars": 0,
-    "rank": 12
   },
   {
     "name": "shelfwear",
@@ -205,7 +61,167 @@
     "repo": "https://github.com/rlawoals0529/shelfwear",
     "demo": "https://rlawoals0529.github.io/shelfwear/",
     "stars": 0,
+    "rank": 4
+  },
+  {
+    "name": "secondread",
+    "blurb": "Six checks over a real syntax tree. It asks the questions a reviewer would, and says what it cannot answer itself.",
+    "description": "Paste code, find out what a reviewer would ask",
+    "language": "TypeScript",
+    "topics": [
+      "ast",
+      "code-review",
+      "developer-tools",
+      "static-analysis"
+    ],
+    "repo": "https://github.com/rlawoals0529/secondread",
+    "demo": "https://rlawoals0529.github.io/secondread/",
+    "stars": 0,
+    "rank": 5
+  },
+  {
+    "name": "notepad",
+    "blurb": "A language for the back of an envelope. Units, money and dates, each line worked out in the margin.",
+    "description": "Type maths in prose, answers in the margin",
+    "language": "TypeScript",
+    "topics": [
+      "calculator",
+      "developer-tools",
+      "parser",
+      "react"
+    ],
+    "repo": "https://github.com/rlawoals0529/notepad",
+    "demo": "https://rlawoals0529.github.io/notepad/",
+    "stars": 0,
+    "rank": 6
+  },
+  {
+    "name": "pc-audit",
+    "blurb": "Reads what Windows already measured about itself, and prints \"not measured\" where the rest of the genre guesses.",
+    "description": "What your Windows machine is actually costing you",
+    "language": "TypeScript",
+    "topics": [
+      "accessibility",
+      "audit",
+      "gaming",
+      "optimization"
+    ],
+    "repo": "https://github.com/rlawoals0529/pc-audit",
+    "demo": "https://rlawoals0529.github.io/pc-audit/",
+    "stars": 0,
+    "rank": 7
+  },
+  {
+    "name": "discern",
+    "blurb": "Wilson intervals and paired McNemar, so two eval runs are not called apart when the difference is noise.",
+    "description": "Eval harness that knows when a difference is noise",
+    "language": "Python",
+    "topics": [
+      "ab-testing",
+      "confidence-intervals",
+      "evaluation",
+      "llm"
+    ],
+    "repo": "https://github.com/rlawoals0529/discern",
+    "demo": "https://rlawoals0529.github.io/discern/",
+    "stars": 0,
+    "rank": 8
+  },
+  {
+    "name": "depgraph",
+    "blurb": "One recursive CTE walks the whole npm graph, so a package reachable forty ways is still counted once.",
+    "description": "The true install cost of an npm dependency",
+    "language": "TypeScript",
+    "topics": [
+      "dependency-graph",
+      "fastapi",
+      "npm",
+      "postgresql"
+    ],
+    "repo": "https://github.com/rlawoals0529/depgraph",
+    "demo": "https://rlawoals0529.github.io/depgraph/",
+    "stars": 0,
+    "rank": 9
+  },
+  {
+    "name": "decoder",
+    "blurb": "Paste a token, a hash, a timestamp. It names it, opens it, and keeps opening what it finds inside.",
+    "description": "Paste anything, find out what it is",
+    "language": "TypeScript",
+    "topics": [
+      "base64",
+      "developer-tools",
+      "jwt",
+      "offline-first"
+    ],
+    "repo": "https://github.com/rlawoals0529/decoder",
+    "demo": "https://rlawoals0529.github.io/decoder/",
+    "stars": 0,
+    "rank": 10
+  },
+  {
+    "name": "tokenview",
+    "blurb": "Watch a sentence break into the pieces a model reads, then watch its meaning land on a map.",
+    "description": "Tokenizer and embedding map for language models",
+    "language": "TypeScript",
+    "topics": [
+      "browser-ml",
+      "educational",
+      "embeddings",
+      "react"
+    ],
+    "repo": "https://github.com/rlawoals0529/tokenview",
+    "demo": "https://rlawoals0529.github.io/tokenview/",
+    "stars": 0,
+    "rank": 11
+  },
+  {
+    "name": "hikari",
+    "blurb": "Desktop widgets that are a folder and two files. A capability has to be asked for, and is refused by default.",
+    "description": "Desktop widgets in HTML, CSS and JavaScript",
+    "language": "JavaScript",
+    "topics": [
+      "customization",
+      "desktop-widgets",
+      "electron",
+      "rainmeter-alternative"
+    ],
+    "repo": "https://github.com/rlawoals0529/hikari",
+    "demo": "https://rlawoals0529.github.io/hikari/",
+    "stars": 0,
+    "rank": 12
+  },
+  {
+    "name": "yozora",
+    "blurb": "Fifteen palettes, a type scale and the texture rules, as one small system every page here runs on.",
+    "description": "Fifteen nocturnal colour themes for VS Code and terminals",
+    "language": "CSS",
+    "topics": [
+      "anime",
+      "color-theme",
+      "dark-theme",
+      "terminal-theme"
+    ],
+    "repo": "https://github.com/rlawoals0529/yozora",
+    "demo": "https://rlawoals0529.github.io/yozora/",
+    "stars": 0,
     "rank": 13
+  },
+  {
+    "name": "skill-radar",
+    "blurb": "Which agent skill actually fires for a given sentence, and which two are quietly competing.",
+    "description": "Which agent skill actually fires, and why",
+    "language": "TypeScript",
+    "topics": [
+      "agent-skills",
+      "ai-agents",
+      "browser-ml",
+      "claude-code"
+    ],
+    "repo": "https://github.com/rlawoals0529/skill-radar",
+    "demo": "https://rlawoals0529.github.io/skill-radar/",
+    "stars": 0,
+    "rank": 14
   },
   {
     "name": "pane",
@@ -221,7 +237,7 @@
     "repo": "https://github.com/rlawoals0529/pane",
     "demo": null,
     "stars": 0,
-    "rank": 15
+    "rank": 16
   },
   {
     "name": "neon-bar",
@@ -237,7 +253,7 @@
     "repo": "https://github.com/rlawoals0529/neon-bar",
     "demo": "https://rlawoals0529.github.io/neon-bar/",
     "stars": 0,
-    "rank": 16
+    "rank": 17
   },
   {
     "name": "skill-lint",
@@ -253,7 +269,7 @@
     "repo": "https://github.com/rlawoals0529/skill-lint",
     "demo": "https://rlawoals0529.github.io/skill-lint/",
     "stars": 0,
-    "rank": 17
+    "rank": 18
   },
   {
     "name": "agent-skills",
@@ -269,18 +285,7 @@
     "repo": "https://github.com/rlawoals0529/agent-skills",
     "demo": "https://rlawoals0529.github.io/agent-skills/",
     "stars": 0,
-    "rank": 18
-  },
-  {
-    "name": "arc-agi-3-agent",
-    "blurb": "Agent for ARC-AGI-3 focused on environment interaction, reasoning, rollout analysis, and measurable performance.",
-    "description": "Agent for ARC-AGI-3 focused on environment interaction, reasoning, rollout analysis, and measurable performance.",
-    "language": "Python",
-    "topics": [],
-    "repo": "https://github.com/rlawoals0529/arc-agi-3-agent",
-    "demo": null,
-    "stars": 0,
-    "rank": 900
+    "rank": 19
   },
   {
     "name": "ev-purchase-prediction",
