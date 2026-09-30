@@ -82,16 +82,46 @@ test("contact replaces the resume link and exposes the public contact handles", 
   await expect(page.getByRole("link", { name: "Resume" })).toHaveCount(0);
 });
 
-test("a palette choice repaints the page and survives a reload", async ({ page }) => {
+test("palette picker is a disclosure and the choice survives a reload", async ({ page }) => {
   await ready(page);
+  const toggle = page.locator("#palette-toggle");
+  const dropdown = page.locator("#palette-dropdown");
+
+  await expect(dropdown).toBeHidden();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+
+  await toggle.click();
+  await expect(dropdown).toBeVisible();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+
   const before = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   await page.locator('.swatch[data-theme="sakura-lake"]').click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "sakura-lake");
+  await expect(page.locator("#palette-toggle-label")).toHaveText("Sakura Lake");
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).not.toBe(before);
   expect(await page.evaluate(() => document.documentElement.style.colorScheme)).toBe("light");
 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "sakura-lake");
+  await expect(page.locator("#palette-toggle-label")).toHaveText("Sakura Lake");
+  await expect(page.locator("#palette-dropdown")).toBeHidden();
+});
+
+test("Escape closes the palette dropdown and restores the palette from before previewing", async ({ page }) => {
+  await ready(page);
+  const toggle = page.locator("#palette-toggle");
+  await toggle.click();
+  const starting = await page.locator("html").getAttribute("data-theme");
+
+  const selected = page.locator('.swatch[aria-checked="true"]');
+  await selected.focus();
+  await page.keyboard.press("ArrowRight");
+  expect(await page.locator("html").getAttribute("data-theme")).not.toBe(starting);
+
+  await page.keyboard.press("Escape");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", starting!);
+  await expect(page.locator("#palette-dropdown")).toBeHidden();
+  await expect(toggle).toBeFocused();
 });
 
 test("body text clears AA in every palette", async ({ page }) => {
