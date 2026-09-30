@@ -37,7 +37,7 @@ const CURATED = {
   "skill-lint": { rank: 17, blurb: "Broken references, colliding triggers and context bloat in an agent's SKILL.md." },
   "agent-skills": { rank: 18, blurb: "The skills themselves, each one written because a specific failure kept happening." },
 };
-const HIDDEN_PROJECTS = new Set(["streaming-markdown"]);
+const HIDDEN_PROJECTS = new Set(["streaming-markdown", "arc-agi-3-agent"]);
 
 const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
 const res = await fetch(`https://api.github.com/users/${USER}/repos?per_page=100&sort=pushed`, {
