@@ -7,9 +7,10 @@ import { fileURLToPath } from "node:url";
  * about JSON modules than Vite is, and an import attribute here would not survive the tsconfig
  * the app is built with. Reading it keeps one source of truth without fighting two loaders.
  */
+const HIDDEN_PROJECTS = new Set(["arc-agi-3-agent"]);
 const projects: { name: string; demo: string | null }[] = JSON.parse(
   readFileSync(fileURLToPath(new URL("../src/projects.json", import.meta.url)), "utf8"),
-);
+).filter((p: { name: string }) => !HIDDEN_PROJECTS.has(p.name.toLowerCase()));
 const live = projects.filter((p) => p.demo);
 
 async function ready(page: Page) {
@@ -70,6 +71,15 @@ test("the skip link moves focus, not only the viewport", async ({ page }) => {
   await expect.poll(async () => (await page.locator("a.skip").boundingBox())!.y).toBeGreaterThanOrEqual(0);
   await page.keyboard.press("Enter");
   expect(await page.evaluate(() => document.activeElement?.id)).toBe("work");
+});
+
+test("contact replaces the resume link and exposes the public contact handles", async ({ page }) => {
+  await ready(page);
+  await expect(page.getByRole("link", { name: "Contact me" })).toHaveAttribute("href", "#contact");
+  await expect(page.getByText("rlawoals00529@gmail.com")).toBeVisible();
+  await expect(page.getByText("jaemin", { exact: true })).toBeVisible();
+  await expect(page.getByText("Open to work", { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Resume" })).toHaveCount(0);
 });
 
 test("a palette choice repaints the page and survives a reload", async ({ page }) => {
