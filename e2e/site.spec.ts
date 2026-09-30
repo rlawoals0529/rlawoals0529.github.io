@@ -158,6 +158,37 @@ test("narrow constellation uses the route layout instead of squeezing the networ
   await expect(page.locator(".constellation-map .map-line").first()).toHaveCSS("display", "none");
 });
 
+test("constellation focus isolates the selected project and its path", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await ready(page);
+
+  const map = page.locator(".constellation-map");
+  const ariadne = map.locator(".map-node-a");
+  const fantasy = map.locator(".map-node-b");
+  const activeLine = map.locator(".map-line-a");
+  const otherLine = map.locator(".map-line-b");
+
+  await ariadne.focus();
+  await expect(ariadne).toBeFocused();
+
+  await expect.poll(async () => Number.parseFloat(await ariadne.evaluate((el) => getComputedStyle(el).opacity))).toBeGreaterThan(.9);
+  await expect.poll(async () => Number.parseFloat(await fantasy.evaluate((el) => getComputedStyle(el).opacity))).toBeLessThan(.5);
+  await expect.poll(async () => Number.parseFloat(await activeLine.evaluate((el) => getComputedStyle(el).opacity))).toBeGreaterThan(.9);
+  await expect.poll(async () => Number.parseFloat(await otherLine.evaluate((el) => getComputedStyle(el).opacity))).toBeLessThan(.2);
+});
+
+test("each constellation preview has a project-specific micro visual", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await ready(page);
+
+  const map = page.locator(".constellation-map");
+  await expect(map.locator(".preview-visual")).toHaveCount(4);
+  await expect(map.locator(".preview-ariadne .evidence-dot")).toHaveCount(3);
+  await expect(map.locator(".preview-fantasy .distribution-bar")).toHaveCount(5);
+  await expect(map.locator(".preview-sidereal .micro-orbit")).toHaveCount(2);
+  await expect(map.locator(".preview-shelfwear .micro-book")).toHaveCount(4);
+});
+
 test("featured work exposes deeper project decisions without forcing navigation", async ({ page }) => {
   await ready(page);
   await expect(page.locator(".spotlight-card")).toHaveCount(4);
