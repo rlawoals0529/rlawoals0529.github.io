@@ -239,7 +239,7 @@ main:focus { outline: none; }
   border: 1px solid color-mix(in srgb, var(--ok) 44%, var(--surface-border));
   border-radius: 999px;
   background: color-mix(in srgb, var(--ok) 9%, transparent);
-  color: var(--ok);
+  color: var(--fg);
   font: 650 var(--label)/1 var(--font-mono);
   letter-spacing: var(--tracking);
   text-transform: uppercase;
@@ -577,6 +577,8 @@ main:focus { outline: none; }
 }
 
 .card-inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -614,7 +616,7 @@ main:focus { outline: none; }
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 5;
 }
 
 .card p {
@@ -633,7 +635,7 @@ main:focus { outline: none; }
   padding: .32rem .48rem;
   border: 1px solid color-mix(in srgb, var(--ok) 35%, var(--surface-border));
   border-radius: 999px;
-  color: var(--ok);
+  color: var(--fg);
   background: color-mix(in srgb, var(--ok) 8%, transparent);
   font: 650 .62rem/1 var(--font-mono);
   letter-spacing: .09em;
@@ -676,7 +678,7 @@ main:focus { outline: none; }
   gap: .5rem;
   margin-top: .28rem;
   position: relative;
-  z-index: 2;
+  z-index: 6;
 }
 
 .card-actions a {
