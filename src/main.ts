@@ -36,18 +36,26 @@ if (count) count.textContent = `${all.length} projects, ${live.length} you can o
 
 const store = createThemeStore(THEMES, DEFAULT_THEME, "portfolio:theme");
 const list = document.getElementById("palette-list");
+const paletteToggle = document.getElementById("palette-toggle") as HTMLButtonElement | null;
+const paletteDropdown = document.getElementById("palette-dropdown");
+const paletteLabel = document.getElementById("palette-toggle-label");
+const paletteChip = document.getElementById("palette-toggle-chip");
 
-if (list) {
+if (list && paletteToggle && paletteDropdown && paletteLabel && paletteChip) {
   list.innerHTML = grouped(THEMES)
     .map(
       (g) => `
-    <fieldset>
+    <fieldset class="palette-group">
       <legend>${g.label}</legend>
       <div class="swatches">
         ${g.themes
           .map(
             (t) => `<button class="swatch" type="button" data-theme="${t.id}">
-              <span class="swatch-chip" aria-hidden="true"></span>
+              <span class="swatch-page" aria-hidden="true">
+                <span class="swatch-ink">Aa</span>
+                <span class="swatch-dot accent"></span>
+                <span class="swatch-dot second"></span>
+              </span>
               <span class="swatch-name">${t.label}</span>
             </button>`,
           )
@@ -59,16 +67,48 @@ if (list) {
 
   const buttons = [...list.querySelectorAll<HTMLButtonElement>("button[data-theme]")];
   let chosen = store.initial();
+
+  const syncToggle = () => {
+    const theme = THEMES.find((t) => t.id === chosen);
+    paletteLabel.textContent = theme?.label ?? "Palette";
+    paletteChip.dataset.theme = chosen;
+  };
+
   const select = (id: string) => {
     chosen = store.apply(id);
+    syncToggle();
   };
-  /*
-   * One tab stop and the arrow keys, from the same helper the React picker's behaviour lives
-   * in. Fifteen swatches were fifteen tab stops, and trying one was a one-way door: there was
-   * no way to look through them and keep the palette you came in with.
-   *
-   * The look stays this page's own. Only the keys are shared.
-   */
-  wirePalette(list, buttons, { select, current: () => chosen });
+
+  const closePalette = () => {
+    paletteDropdown.hidden = true;
+    paletteToggle.setAttribute("aria-expanded", "false");
+  };
+
+  const openPalette = () => {
+    paletteDropdown.hidden = false;
+    paletteToggle.setAttribute("aria-expanded", "true");
+  };
+
+  const picker = wirePalette(list, buttons, {
+    select,
+    current: () => chosen,
+    onEscape: () => {
+      closePalette();
+      paletteToggle.focus();
+    },
+  });
+
+  paletteToggle.addEventListener("click", () => {
+    if (paletteDropdown.hidden) openPalette();
+    else closePalette();
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as Node;
+    if (paletteDropdown.hidden || paletteDropdown.contains(target) || paletteToggle.contains(target)) return;
+    closePalette();
+  });
+
   select(chosen);
+  picker.refresh();
 }

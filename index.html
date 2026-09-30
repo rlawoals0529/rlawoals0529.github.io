@@ -39,9 +39,19 @@
     <div class="hero-links">
       <a class="btn primary" href="#work">See the work</a>
       <a class="btn" href="https://github.com/rlawoals0529">GitHub</a>
-      <a class="btn" href="#palette">Change the colours</a>
+      <button class="btn palette-toggle" id="palette-toggle" type="button" aria-expanded="false" aria-controls="palette-dropdown">
+        <span class="palette-toggle-chip" id="palette-toggle-chip" aria-hidden="true"></span>
+        <span class="sr-only">Palette: </span>
+        <span id="palette-toggle-label">Twilight Comet</span>
+        <span class="palette-toggle-caret" aria-hidden="true">⌄</span>
+      </button>
       <a class="btn" href="#contact">Contact me</a>
     </div>
+
+    <section class="palette-dropdown" id="palette-dropdown" aria-label="Colour palette" hidden>
+      <div class="palette-list" id="palette-list"></div>
+      <p class="palette-hint">Arrow keys preview each palette. Escape restores the one you started with.</p>
+    </section>
   </header>
 
   <main id="work" tabindex="-1">
@@ -73,14 +83,6 @@
         <strong>jaemin</strong>
       </div>
     </div>
-  </section>
-
-  <section class="palette" id="palette">
-    <div class="section-head">
-      <h2>Fifteen palettes</h2>
-      <p>From yozora, the design system every page here runs on. Your choice stays in this browser.</p>
-    </div>
-    <div class="palette-list" id="palette-list"></div>
   </section>
 
   <footer class="foot">

@@ -10,8 +10,14 @@ import themes from "../src/theme/palettes.json" with { type: "json" };
  * behaviour, so that is what is checked.
  */
 
-test("the whole grid is one tab stop, and the arrows move inside it", async ({ page }) => {
+async function openPalette(page: import("@playwright/test").Page) {
   await page.goto("/");
+  await page.locator("#palette-toggle").click();
+  await expect(page.locator("#palette-dropdown")).toBeVisible();
+}
+
+test("the whole grid is one tab stop, and the arrows move inside it", async ({ page }) => {
+  await openPalette(page);
   const options = page.getByRole("radio");
   expect(await options.count()).toBeGreaterThan(10);
 
@@ -21,7 +27,7 @@ test("the whole grid is one tab stop, and the arrows move inside it", async ({ p
 });
 
 test("arrowing tries each palette on the page, and Escape puts back the one you arrived with", async ({ page }) => {
-  await page.goto("/");
+  await openPalette(page);
   const started = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));
   const paint = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   const before = await paint();
@@ -42,7 +48,7 @@ test("arrowing tries each palette on the page, and Escape puts back the one you 
 });
 
 test("a chosen palette survives a reload, colour scheme and all", async ({ page }) => {
-  await page.goto("/");
+  await openPalette(page);
   await page.getByRole("radio", { name: "Sakura Lake" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "sakura-lake");
   // color-scheme rides along, or the browser paints native scrollbars for the other one.
