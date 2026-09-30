@@ -1095,14 +1095,15 @@ a.contact-item:hover {
 }
 
 .quick-read-copy h2 {
-  max-width: 16ch;
-  margin: .55rem 0 .85rem;
+  max-width: 19ch;
+  margin: .55rem 0 .9rem;
   color: var(--fg);
-  font-family: var(--font-round);
-  font-size: clamp(1.8rem, 3.5vw, 2.7rem);
-  font-weight: 800;
-  line-height: 1.04;
-  letter-spacing: -.045em;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+  text-transform: none;
 }
 
 .quick-read-copy > p:last-child {
