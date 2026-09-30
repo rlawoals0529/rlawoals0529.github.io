@@ -171,15 +171,10 @@ test("constellation focus isolates the selected project and its path", async ({ 
   await ariadne.focus();
   await expect(ariadne).toBeFocused();
 
-  const activeOpacity = Number.parseFloat(await ariadne.evaluate((el) => getComputedStyle(el).opacity));
-  const otherOpacity = Number.parseFloat(await fantasy.evaluate((el) => getComputedStyle(el).opacity));
-  const activeLineOpacity = Number.parseFloat(await activeLine.evaluate((el) => getComputedStyle(el).opacity));
-  const otherLineOpacity = Number.parseFloat(await otherLine.evaluate((el) => getComputedStyle(el).opacity));
-
-  expect(activeOpacity).toBeGreaterThan(.9);
-  expect(otherOpacity).toBeLessThan(.5);
-  expect(activeLineOpacity).toBeGreaterThan(.9);
-  expect(otherLineOpacity).toBeLessThan(.2);
+  await expect.poll(async () => Number.parseFloat(await ariadne.evaluate((el) => getComputedStyle(el).opacity))).toBeGreaterThan(.9);
+  await expect.poll(async () => Number.parseFloat(await fantasy.evaluate((el) => getComputedStyle(el).opacity))).toBeLessThan(.5);
+  await expect.poll(async () => Number.parseFloat(await activeLine.evaluate((el) => getComputedStyle(el).opacity))).toBeGreaterThan(.9);
+  await expect.poll(async () => Number.parseFloat(await otherLine.evaluate((el) => getComputedStyle(el).opacity))).toBeLessThan(.2);
 });
 
 test("each constellation preview has a project-specific micro visual", async ({ page }) => {
