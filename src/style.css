@@ -704,6 +704,33 @@ main:focus { outline: none; }
   text-transform: none;
 }
 
+.constellation-footer {
+  position: relative;
+  z-index: 7;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  padding-top: .78rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+.constellation-footer > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .28rem;
+  padding: .36rem .5rem;
+  border: 1px solid color-mix(in srgb, var(--edge) 68%, transparent);
+  border-radius: 999px;
+  color: var(--dim);
+  background: color-mix(in srgb, var(--bg) 24%, transparent);
+  font: 680 .66rem/1 var(--font-soft);
+}
+
+.constellation-footer strong {
+  color: var(--fg);
+  font: 820 .76rem/1 var(--font-soft);
+}
+
 .hero-card-note {
   max-width: 15rem;
   margin-top: 1rem;
@@ -2273,35 +2300,13 @@ a.contact-item:hover {
     display: none;
   }
 
-  .hero-metrics {
-    grid-template-columns: 1fr;
-    gap: 0;
-    margin-top: .2rem;
-    border-top: 1px solid var(--surface-border);
+  .constellation-footer {
+    gap: .35rem;
+    padding-top: .68rem;
   }
 
-  .hero-metrics div {
-    min-height: 42px;
-    padding: .6rem 0;
-    border-top: 0;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .hero-metrics div + div {
-    border-top: 1px solid var(--surface-border);
-  }
-
-  .hero-metrics strong {
-    font-size: 1.55rem;
-    line-height: 1;
-  }
-
-  .hero-metrics span {
-    margin-top: 0;
-    font-size: .68rem;
+  .constellation-footer > span {
+    padding: .34rem .46rem;
   }
 
   .hero-card-note {
