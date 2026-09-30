@@ -70,12 +70,14 @@ test("the skip link moves focus, not only the viewport", async ({ page }) => {
   expect(await page.evaluate(() => document.activeElement?.id)).toBe("work");
 });
 
-test("contact replaces the resume link and exposes the public contact handles", async ({ page }) => {
+test("contact exposes the public handles without the old Discord discriminator", async ({ page }) => {
   await ready(page);
-  await expect(page.getByRole("link", { name: "Contact me" })).toHaveAttribute("href", "#contact");
+  await expect(page.getByRole("link", { name: "Say hello" })).toHaveAttribute("href", "#contact");
   await expect(page.getByText("rlawoals00529@gmail.com")).toBeVisible();
   await expect(page.getByText("jaemin", { exact: true })).toBeVisible();
   await expect(page.getByText("Open to work", { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("button", { name: "Copy Discord username jaemin" })).toBeVisible();
+  await expect(page.locator("#contact")).not.toContainText("#");
   await expect(page.getByRole("link", { name: "Resume" })).toHaveCount(0);
 });
 
