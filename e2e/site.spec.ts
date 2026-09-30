@@ -79,7 +79,33 @@ test("contact exposes the public handles without the old Discord discriminator",
   await expect(page.getByText("Open to work", { exact: true }).first()).toBeVisible();
   await expect(page.getByRole("button", { name: "Copy Discord username jaemin" })).toBeVisible();
   await expect(page.locator("#contact")).not.toContainText("#");
-  await expect(page.getByRole("link", { name: "Resume" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Resume", exact: true }).first()).toHaveAttribute("href", "/James_Kim_Resume.pdf");
+  await expect(page.getByRole("link", { name: /LinkedIn/ })).toHaveAttribute("href", "https://www.linkedin.com/in/jamesjkim04");
+});
+
+test("portfolio metadata, favicon, social card, and resume are publish-ready", async ({ page, request }) => {
+  await ready(page);
+
+  await expect(page).toHaveTitle("James Kim — Product, Data & Engineering");
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute("href", "/favicon.svg");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://rlawoals0529.github.io/");
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    "https://rlawoals0529.github.io/social-card.png",
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
+
+  const [favicon, social, resume] = await Promise.all([
+    request.get("/favicon.svg"),
+    request.get("/social-card.png"),
+    request.get("/James_Kim_Resume.pdf"),
+  ]);
+
+  expect(favicon.status()).toBeLessThan(400);
+  expect(social.status()).toBeLessThan(400);
+  expect(resume.status()).toBeLessThan(400);
+  expect(social.headers()["content-type"]).toContain("image/png");
+  expect(resume.headers()["content-type"]).toContain("application/pdf");
 });
 
 test("constellation hero has a center node, four project stars, and deep links", async ({ page }) => {
