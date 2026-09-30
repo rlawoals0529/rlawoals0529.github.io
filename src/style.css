@@ -1340,6 +1340,12 @@ a.contact-item:hover {
 
 /* ---- Project explorer -------------------------------------------------------------------- */
 
+.card[hidden],
+.project-section[hidden],
+.project-empty[hidden] {
+  display: none !important;
+}
+
 #work { scroll-margin-top: 5.5rem; }
 
 .explorer-head { padding-top: clamp(4rem, 8vw, 6.5rem); }
