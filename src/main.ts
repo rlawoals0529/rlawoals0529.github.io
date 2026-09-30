@@ -37,6 +37,26 @@ const heroLiveCount = document.getElementById("hero-live-count");
 if (heroProjectCount) heroProjectCount.textContent = String(all.length);
 if (heroLiveCount) heroLiveCount.textContent = String(live.length);
 
+/* ---- contact ------------------------------------------------------------------------------ */
+
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
+  button.addEventListener("click", async () => {
+    const value = button.dataset.copy;
+    const action = button.querySelector<HTMLElement>(".contact-action");
+    if (!value || !navigator.clipboard) return;
+
+    try {
+      await navigator.clipboard.writeText(value);
+      if (action) action.textContent = "Copied";
+      window.setTimeout(() => {
+        if (action) action.textContent = "Copy";
+      }, 1600);
+    } catch {
+      if (action) action.textContent = value;
+    }
+  });
+}
+
 /* ---- palette ------------------------------------------------------------------------------ */
 
 const store = createThemeStore(THEMES, DEFAULT_THEME, "portfolio:theme");
