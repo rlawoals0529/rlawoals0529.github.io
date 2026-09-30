@@ -82,14 +82,32 @@ test("contact exposes the public handles without the old Discord discriminator",
   await expect(page.getByRole("link", { name: "Resume" })).toHaveCount(0);
 });
 
-test("hero project map deep-links into the featured work", async ({ page }) => {
+test("constellation hero has a center node, four project stars, and deep links", async ({ page }) => {
   await ready(page);
-  const map = page.locator(".project-map");
+  const hero = page.locator('[data-hero-variant="constellation"]');
+  const map = hero.locator(".constellation-map");
+
+  await expect(hero).toBeVisible();
+  await expect(map.locator(".constellation-center")).toContainText("James Kim");
+  await expect(map.locator(".constellation-center")).toContainText("product × data × engineering");
   await expect(map.getByRole("link")).toHaveCount(4);
+  await expect(map.locator(".node-preview")).toHaveCount(4);
+
   await expect(map.getByRole("link", { name: /Ariadne/ })).toHaveAttribute("href", "#case-ariadne");
   await expect(map.getByRole("link", { name: /FantasyStats/ })).toHaveAttribute("href", "#case-fantasystats");
   await expect(map.getByRole("link", { name: /sidereal/ })).toHaveAttribute("href", "#case-sidereal");
   await expect(map.getByRole("link", { name: /shelfwear/ })).toHaveAttribute("href", "#case-shelfwear");
+});
+
+test("constellation preview appears on keyboard focus", async ({ page }) => {
+  await ready(page);
+  const ariadne = page.locator(".map-node-a");
+  const preview = ariadne.locator(".node-preview");
+
+  await ariadne.focus();
+  await expect(ariadne).toBeFocused();
+  await expect(preview).toHaveCSS("visibility", "visible");
+  await expect(preview).toHaveCSS("opacity", "1");
 });
 
 test("featured work exposes deeper project decisions without forcing navigation", async ({ page }) => {
