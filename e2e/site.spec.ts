@@ -376,5 +376,5 @@ test("the server under test is this app, not another app on the same port", asyn
    * happened here twice, and once it produced a completely green run against the wrong page.
    * Ports are unique now; this is what catches the next way it goes wrong.
    */
-  await expect(page).toHaveTitle(/things I built/);
+  await expect(page).toHaveTitle(/James Kim — Product, Data & Engineering/);
 });
