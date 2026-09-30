@@ -90,7 +90,7 @@ test("featured work exposes deeper project decisions without forcing navigation"
   await expect(ariadne.locator(".case-visual")).toHaveAttribute("aria-hidden", "true");
   await ariadne.locator("summary").click();
   await expect(ariadne).toContainText("Problem");
-  await expect(ariadne).toContainText("Exact first-party adapters");
+  await expect(ariadne).toContainText("exact first-party adapters");
   await expect(ariadne).toContainText("What this demonstrates");
   await expect(ariadne.getByRole("link", { name: /Open project/ })).toHaveAttribute(
     "href",
