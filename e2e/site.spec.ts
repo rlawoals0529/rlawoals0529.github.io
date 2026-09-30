@@ -110,6 +110,54 @@ test("constellation preview appears on keyboard focus", async ({ page }) => {
   await expect(preview).toHaveCSS("opacity", "1");
 });
 
+test("constellation nodes never collide in wide and narrow layouts", async ({ page }) => {
+  for (const width of [1440, 1180, 900, 453, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await ready(page);
+
+    const card = page.locator(".constellation-card");
+    const nodes = page.locator(".constellation-center, .constellation-map .map-node");
+    const cardBox = await card.boundingBox();
+    expect(cardBox, `constellation card missing at ${width}px`).not.toBeNull();
+
+    const boxes = await nodes.evaluateAll((els) =>
+      els.map((el) => {
+        const r = el.getBoundingClientRect();
+        return { left: r.left, right: r.right, top: r.top, bottom: r.bottom };
+      }),
+    );
+
+    for (let i = 0; i < boxes.length; i += 1) {
+      for (let j = i + 1; j < boxes.length; j += 1) {
+        const a = boxes[i];
+        const b = boxes[j];
+        const overlaps = a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+        expect(overlaps, `constellation nodes ${i} and ${j} overlap at ${width}px`).toBe(false);
+      }
+    }
+
+    for (const box of boxes) {
+      expect(box.left).toBeGreaterThanOrEqual(cardBox!.left - 1);
+      expect(box.right).toBeLessThanOrEqual(cardBox!.right + 1);
+    }
+  }
+});
+
+test("narrow constellation uses the route layout instead of squeezing the network", async ({ page }) => {
+  await page.setViewportSize({ width: 453, height: 900 });
+  await ready(page);
+
+  const center = page.locator(".constellation-center");
+  const firstProject = page.locator(".map-node-a");
+  const centerBox = await center.boundingBox();
+  const projectBox = await firstProject.boundingBox();
+
+  expect(centerBox).not.toBeNull();
+  expect(projectBox).not.toBeNull();
+  expect(projectBox!.top).toBeGreaterThan(centerBox!.bottom);
+  await expect(page.locator(".constellation-map .map-line").first()).toHaveCSS("display", "none");
+});
+
 test("featured work exposes deeper project decisions without forcing navigation", async ({ page }) => {
   await ready(page);
   await expect(page.locator(".spotlight-card")).toHaveCount(4);
