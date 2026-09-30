@@ -25,29 +25,26 @@ test("every project is on the page, and the live ones are marked", async ({ page
   await expect(page.locator("#counts")).toContainText(`${projects.length} projects`);
 });
 
-test("the whole card is the target, not the title text", async ({ page }) => {
+test("the whole card is the target, not only its title text", async ({ page }) => {
   await ready(page);
   const card = page.locator(".card").first();
-  const box = (await card.boundingBox())!;
-  // A corner well away from the title. A card whose only hit area is its heading is a 21rem
-  // rectangle that looks clickable and is not.
-  const hit = await page.evaluate(
-    ({ x, y }: { x: number; y: number }) =>
-      document.elementFromPoint(x, y)?.closest("a")?.getAttribute("href") ?? null,
-    { x: box.x + box.width - 20, y: box.y + 24 },
-  );
-  expect(hit).toBeTruthy();
+  const hit = card.locator(".card-hit");
+  const [cardBox, hitBox] = await Promise.all([card.boundingBox(), hit.boundingBox()]);
+  expect(cardBox).toBeTruthy();
+  expect(hitBox).toBeTruthy();
+  expect(Math.abs(hitBox!.width - cardBox!.width)).toBeLessThanOrEqual(2);
+  expect(Math.abs(hitBox!.height - cardBox!.height)).toBeLessThanOrEqual(2);
 });
 
-test("a card carries exactly one stretched link, so it has one accessible name", async ({ page }) => {
+test("a card carries exactly one overlay link, so it has one primary accessible target", async ({ page }) => {
   await ready(page);
-  const stretched = await page.evaluate(
-    () =>
-      [...document.querySelectorAll(".card")].map(
-        (c) => [...c.querySelectorAll("a")].filter((a) => getComputedStyle(a, "::after").position === "absolute").length,
-      ),
-  );
-  expect(new Set(stretched)).toEqual(new Set([1]));
+  const cards = page.locator(".card");
+  const count = await cards.count();
+  for (let i = 0; i < count; i += 1) {
+    const hit = cards.nth(i).locator("a.card-hit");
+    await expect(hit).toHaveCount(1);
+    expect(await hit.getAttribute("aria-label")).toBeTruthy();
+  }
 });
 
 test("no demo link is a dead one", async ({ page, request }) => {

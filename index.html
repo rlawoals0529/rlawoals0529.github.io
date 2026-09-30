@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>James Kim - things I built</title>
-<meta name="description" content="Seventeen projects, sixteen of them running in your browser right now. A language for the back of an envelope, an eval harness that knows when a difference is noise, and a reviewer that says what it cannot answer.">
+<meta name="description" content="James Kim's portfolio of shipped projects, browser tools, product experiments, and interfaces.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:title" content="James Kim - things I built">
-<meta property="og:description" content="Seventeen projects, sixteen of them running in your browser right now.">
+<meta property="og:description" content="Shipped projects, browser tools, product experiments, and interfaces by James Kim.">
 <meta property="og:type" content="website">
 <script>
   /* Before first paint, so the page never shows one palette and swaps to another.
@@ -24,71 +24,108 @@
 <body class="grain">
 <a class="skip" href="#work">Skip to the projects</a>
 
-<div class="wrap">
-  <header class="hero">
-    <h1>Things I<br>actually <em>built</em>.</h1>
-    <p>
-      I build the interfaces people touch, and lately that has meant putting AI inside them.
-      Everything below is mine, and <strong>sixteen of them run in your browser right now</strong>
-      with nothing to install.
-    </p>
-    <p class="availability">
-      <span class="availability-mark" aria-hidden="true"></span>
-      Open to work
-    </p>
-    <div class="hero-links">
-      <a class="btn primary" href="#work">See the work</a>
-      <a class="btn" href="https://github.com/rlawoals0529">GitHub</a>
-      <button class="btn palette-toggle" id="palette-toggle" type="button" aria-expanded="false" aria-controls="palette-dropdown">
+<div class="site-shell">
+  <nav class="nav" aria-label="Portfolio navigation">
+    <a class="brand" href="#top" aria-label="James Kim portfolio home">
+      <span class="brand-mark" aria-hidden="true">JK</span>
+      <span class="brand-copy">
+        <strong>James Kim</strong>
+        <small>Things I built</small>
+      </span>
+    </a>
+
+    <div class="nav-actions">
+      <a class="nav-link" href="https://github.com/rlawoals0529">GitHub</a>
+      <button class="nav-link palette-toggle" id="palette-toggle" type="button" aria-expanded="false" aria-controls="palette-dropdown">
         <span class="palette-toggle-chip" id="palette-toggle-chip" aria-hidden="true"></span>
         <span class="sr-only">Palette: </span>
         <span id="palette-toggle-label">Twilight Comet</span>
         <span class="palette-toggle-caret" aria-hidden="true">⌄</span>
       </button>
-      <a class="btn" href="#contact">Contact me</a>
+      <a class="nav-link nav-contact" href="#contact">Contact</a>
     </div>
+  </nav>
 
-    <section class="palette-dropdown" id="palette-dropdown" aria-label="Colour palette" hidden>
-      <div class="palette-list" id="palette-list"></div>
-      <p class="palette-hint">Arrow keys preview each palette. Escape restores the one you started with.</p>
-    </section>
-  </header>
-
-  <main id="work" tabindex="-1">
-    <div class="section-head">
-      <h2>Open one</h2>
-      <p id="counts"></p>
-    </div>
-    <div class="grid" id="live-grid"></div>
-
-    <div class="section-head">
-      <h2>And the rest</h2>
-      <p>Libraries, tools and a design system. Code only, nothing to click.</p>
-    </div>
-    <div class="grid" id="rest-grid"></div>
-  </main>
-
-  <section class="contact" id="contact" aria-labelledby="contact-title">
-    <div class="section-head">
-      <h2 id="contact-title">Contact me</h2>
-      <p>Open to work</p>
-    </div>
-    <div class="contact-grid">
-      <a class="contact-item" href="mailto:rlawoals00529@gmail.com">
-        <span class="label">Email</span>
-        <strong>rlawoals00529@gmail.com</strong>
-      </a>
-      <div class="contact-item">
-        <span class="label">Discord</span>
-        <strong>jaemin</strong>
-      </div>
-    </div>
+  <section class="palette-dropdown" id="palette-dropdown" aria-label="Colour palette" hidden>
+    <div class="palette-list" id="palette-list"></div>
+    <p class="palette-hint">Arrow keys preview each palette. Escape restores the one you started with.</p>
   </section>
 
-  <footer class="foot">
-    <span>Built by James Kim. <a href="https://github.com/rlawoals0529">github.com/rlawoals0529</a></span>
-    <span>No analytics, no cookies, nothing tracked.</span>
-  </footer>
+  <div class="wrap">
+    <header class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Personal projects / product experiments</p>
+        <h1>Things I <em>actually built.</em></h1>
+        <p class="lede">
+          I build the interfaces people touch, and lately that has meant putting AI inside them.
+          Everything here is mine, with live projects you can open and try without installing anything.
+        </p>
+        <div class="hero-status">
+          <span class="availability"><span class="availability-mark" aria-hidden="true"></span>Open to work</span>
+          <span class="hero-note">Built, tested, and shipped in public.</span>
+        </div>
+        <div class="hero-links">
+          <a class="btn primary" href="#work">See the work <span aria-hidden="true">↘</span></a>
+          <a class="btn" href="#contact">Contact me</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Portfolio summary">
+        <span class="hero-card-spark" aria-hidden="true">✦</span>
+        <p class="hero-card-kicker">Portfolio index</p>
+        <div class="hero-metrics">
+          <div><strong id="hero-project-count">—</strong><span>Projects</span></div>
+          <div><strong id="hero-live-count">—</strong><span>Live now</span></div>
+        </div>
+        <p class="hero-card-note">No analytics, no cookies, nothing tracked.</p>
+      </aside>
+    </header>
+
+    <main id="work" tabindex="-1">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Live projects</p>
+          <h2>Open one</h2>
+        </div>
+        <p id="counts"></p>
+      </div>
+      <div class="grid" id="live-grid"></div>
+
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Code & systems</p>
+          <h2>And the rest</h2>
+        </div>
+        <p>Libraries, tools and a design system. Code only, nothing to click.</p>
+      </div>
+      <div class="grid" id="rest-grid"></div>
+    </main>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="contact-intro">
+        <p class="eyebrow">Say hello</p>
+        <h2 id="contact-title">Contact me.</h2>
+        <p>Open to work and easy to reach through the public contact details below.</p>
+      </div>
+      <div class="contact-grid">
+        <a class="contact-item" href="mailto:rlawoals00529@gmail.com">
+          <span class="label">Email</span>
+          <strong>rlawoals00529@gmail.com</strong>
+          <span class="contact-arrow" aria-hidden="true">↗</span>
+        </a>
+        <div class="contact-item">
+          <span class="label">Discord</span>
+          <strong>jaemin</strong>
+          <span class="contact-arrow" aria-hidden="true">#</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Built by James Kim.</span>
+      <a href="https://github.com/rlawoals0529">github.com/rlawoals0529 ↗</a>
+    </footer>
+  </div>
 </div>
 
 <script type="module" src="/src/main.ts"></script>
