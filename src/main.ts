@@ -30,7 +30,12 @@ mount("rest-grid", grid(rest, live.length));
 attachTilt();
 
 const count = document.getElementById("counts");
-if (count) count.textContent = `${all.length} projects, ${live.length} you can open right now`;
+if (count) count.textContent = `${all.length} projects · ${live.length} live in your browser`;
+
+const heroProjectCount = document.getElementById("hero-project-count");
+const heroLiveCount = document.getElementById("hero-live-count");
+if (heroProjectCount) heroProjectCount.textContent = String(all.length);
+if (heroLiveCount) heroLiveCount.textContent = String(live.length);
 
 /* ---- palette ------------------------------------------------------------------------------ */
 
