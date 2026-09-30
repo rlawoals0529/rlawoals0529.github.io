@@ -72,7 +72,7 @@ test("the skip link moves focus, not only the viewport", async ({ page }) => {
 
 test("contact exposes the public handles without the old Discord discriminator", async ({ page }) => {
   await ready(page);
-  await expect(page.getByRole("link", { name: "Contact me" })).toHaveAttribute("href", "#contact");
+  await expect(page.getByRole("link", { name: "Contact", exact: true })).toHaveAttribute("href", "#contact");
   await expect(page.getByRole("heading", { name: "Say hello." })).toBeVisible();
   await expect(page.getByText("rlawoals00529@gmail.com")).toBeVisible();
   await expect(page.getByText("jaemin", { exact: true })).toBeVisible();
@@ -87,8 +87,11 @@ test("featured work exposes deeper project decisions without forcing navigation"
   await expect(page.locator(".spotlight-card")).toHaveCount(4);
   const ariadne = page.locator(".spotlight-card").filter({ hasText: "Ariadne" });
   await expect(ariadne).toContainText("Evidence-aware search");
+  await expect(ariadne.locator(".case-visual")).toHaveAttribute("aria-hidden", "true");
   await ariadne.locator("summary").click();
+  await expect(ariadne).toContainText("Problem");
   await expect(ariadne).toContainText("Exact first-party adapters");
+  await expect(ariadne).toContainText("What this demonstrates");
   await expect(ariadne.getByRole("link", { name: /Open project/ })).toHaveAttribute(
     "href",
     "https://ariadne.rlawoals0529.workers.dev",
