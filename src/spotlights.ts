@@ -144,8 +144,10 @@ function visualMarkup(visual: Visual): string {
 
 export function renderSpotlights(): string {
   return SPOTLIGHTS.map(
-    (project, index) => `
-      <article class="spotlight-card ${index === 0 ? "spotlight-lead" : ""}" data-case="${esc(project.visual)}">
+    (project, index) => {
+      const caseId = `case-${project.name.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+      return `
+      <article id="${caseId}" class="spotlight-card ${index === 0 ? "spotlight-lead" : ""}" data-case="${esc(project.visual)}">
         <div class="spotlight-copy">
           <div class="spotlight-topline">
             <span class="spotlight-number">${String(index + 1).padStart(2, "0")}</span>
@@ -183,6 +185,7 @@ export function renderSpotlights(): string {
           <a href="${esc(project.demo)}">Open project <span aria-hidden="true">↗</span></a>
           <a href="${esc(project.repo)}">Source <span aria-hidden="true">↗</span></a>
         </div>
-      </article>`,
+      </article>`;
+    },
   ).join("");
 }
