@@ -552,21 +552,10 @@ main:focus { outline: none; }
   border: 1px solid var(--surface-border);
   border-radius: var(--portfolio-radius);
   background:
+    radial-gradient(circle at 108% -8%, color-mix(in srgb, var(--accent) 11%, transparent), transparent 38%),
     linear-gradient(145deg, color-mix(in srgb, var(--panel) 96%, transparent), color-mix(in srgb, var(--raised) 70%, var(--panel)));
   box-shadow: var(--surface-shadow-soft);
   transition: border-color 150ms ease, box-shadow 150ms ease, translate 150ms ease;
-}
-
-.card::before {
-  content: "";
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  top: -100px;
-  right: -70px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--accent) 9%, transparent);
-  pointer-events: none;
 }
 
 .card:hover,
@@ -608,6 +597,7 @@ main:focus { outline: none; }
 }
 
 .card-hit {
+  display: block;
   position: absolute;
   inset: 0;
   z-index: 5;
