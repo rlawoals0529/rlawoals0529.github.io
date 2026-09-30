@@ -35,6 +35,8 @@
     </a>
 
     <div class="nav-actions">
+      <a class="nav-link nav-section" href="#featured">Featured</a>
+      <a class="nav-link nav-section" href="#work">All work</a>
       <a class="nav-link" href="https://github.com/rlawoals0529">GitHub</a>
       <button class="nav-link palette-toggle" id="palette-toggle" type="button" aria-expanded="false" aria-controls="palette-dropdown">
         <span class="palette-toggle-chip" id="palette-toggle-chip" aria-hidden="true"></span>
@@ -89,36 +91,96 @@
       </aside>
     </header>
 
-    <main id="work" tabindex="-1">
+    <section class="quick-read" aria-labelledby="quick-read-title">
+      <div class="quick-read-copy">
+        <p class="eyebrow">The quick read</p>
+        <h2 id="quick-read-title">I like the overlap between product, data, and engineering.</h2>
+        <p>I tend to build things where the interface has to explain the system underneath it, not hide it.</p>
+      </div>
+      <div class="quick-read-grid">
+        <article>
+          <span class="quick-icon" aria-hidden="true">↗</span>
+          <strong>Product-minded</strong>
+          <p>I care about what should exist, what should not, and what the interface needs to make obvious.</p>
+        </article>
+        <article>
+          <span class="quick-icon" aria-hidden="true">≈</span>
+          <strong>Evidence-first</strong>
+          <p>I would rather show uncertainty, provenance, or “not measured” than make a number look more certain than it is.</p>
+        </article>
+        <article>
+          <span class="quick-icon" aria-hidden="true">⌘</span>
+          <strong>I ship the interface</strong>
+          <p>Most of the work here is live in a browser, with the implementation and source available to inspect.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="featured" id="featured" aria-labelledby="featured-title">
       <div class="section-head">
         <div class="section-title-wrap">
           <span class="section-doodle" aria-hidden="true">01</span>
           <div>
-            <p class="eyebrow">Live projects</p>
-            <h2>Try something</h2>
+            <p class="eyebrow">Featured work</p>
+            <h2 id="featured-title">A few projects with the decisions left in.</h2>
+          </div>
+        </div>
+        <p>Open the notes for the product and engineering choices behind each project.</p>
+      </div>
+      <div class="spotlight-grid" id="spotlight-grid"></div>
+    </section>
+
+    <main id="work" tabindex="-1">
+      <div class="section-head explorer-head">
+        <div class="section-title-wrap">
+          <span class="section-doodle alt" aria-hidden="true">02</span>
+          <div>
+            <p class="eyebrow">Project index</p>
+            <h2>Explore everything</h2>
           </div>
         </div>
         <p id="counts"></p>
       </div>
-      <div class="grid" id="live-grid"></div>
 
-      <div class="section-head">
-        <div class="section-title-wrap">
-          <span class="section-doodle alt" aria-hidden="true">02</span>
-          <div>
-            <p class="eyebrow">Code & systems</p>
-            <h2>More things I’ve made</h2>
-          </div>
+      <div class="project-explorer" aria-label="Project filters">
+        <label class="project-search">
+          <span class="sr-only">Search projects</span>
+          <span aria-hidden="true">⌕</span>
+          <input id="project-search" type="search" placeholder="Search projects, tech, or topics" autocomplete="off">
+        </label>
+        <div class="filter-row" role="group" aria-label="Filter projects">
+          <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-chip" type="button" data-filter="live" aria-pressed="false">Live</button>
+          <button class="filter-chip" type="button" data-filter="typescript" aria-pressed="false">TypeScript</button>
+          <button class="filter-chip" type="button" data-filter="python" aria-pressed="false">Python</button>
+          <button class="filter-chip" type="button" data-filter="gaming" aria-pressed="false">Gaming</button>
+          <button class="filter-chip" type="button" data-filter="data" aria-pressed="false">Data / AI</button>
         </div>
-        <p>Libraries, tools and experiments where the source is the interesting part.</p>
       </div>
-      <div class="grid" id="rest-grid"></div>
+
+      <section class="project-section" data-project-section>
+        <div class="project-subhead">
+          <h3>Live in your browser</h3>
+          <p>Open these without installing anything.</p>
+        </div>
+        <div class="grid" id="live-grid"></div>
+      </section>
+
+      <section class="project-section" data-project-section>
+        <div class="project-subhead">
+          <h3>Source-first projects</h3>
+          <p>Libraries, tools, experiments, and work where the implementation is the main artifact.</p>
+        </div>
+        <div class="grid" id="rest-grid"></div>
+      </section>
+
+      <p class="project-empty" id="project-empty" hidden>No projects match that filter yet.</p>
     </main>
 
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="contact-intro">
         <p class="hero-kicker"><span aria-hidden="true">↗</span> get in touch</p>
-        <h2 id="contact-title">Let’s talk.</h2>
+        <h2 id="contact-title">Say hello.</h2>
         <p>If something here caught your attention, email or Discord both work.</p>
       </div>
       <div class="contact-grid">
