@@ -257,14 +257,14 @@ main:focus { outline: none; }
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  padding: .42rem .68rem;
-  border: 1px solid color-mix(in srgb, var(--ok) 44%, var(--surface-border));
+  padding: .45rem .72rem;
+  border: 1px solid color-mix(in srgb, var(--ok) 42%, var(--surface-border));
   border-radius: 999px;
   background: color-mix(in srgb, var(--ok) 9%, transparent);
   color: var(--fg);
-  font: 650 var(--label)/1 var(--font-mono);
-  letter-spacing: var(--tracking);
-  text-transform: uppercase;
+  font: 760 .76rem/1 var(--font-soft);
+  letter-spacing: -.01em;
+  text-transform: none;
 }
 
 .availability-mark {
