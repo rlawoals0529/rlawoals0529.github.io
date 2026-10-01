@@ -82,7 +82,7 @@ test("contact section contains no personal contact identifiers", async ({ page }
 test("portfolio metadata, favicon, and social card are publish-ready", async ({ page, request }) => {
   await ready(page);
 
-  await expect(page).toHaveTitle("James Kim — Product, Data & Engineering");
+  await expect(page).toHaveTitle("rlawoals0529 — Product, Data & Engineering");
   await expect(page.locator('link[rel="icon"]')).toHaveAttribute("href", "/favicon.svg");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://rlawoals0529.github.io/");
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
@@ -107,7 +107,7 @@ test("constellation hero has a center node, four project stars, and deep links",
   const map = hero.locator(".constellation-map");
 
   await expect(hero).toBeVisible();
-  await expect(map.locator(".constellation-center")).toContainText("James Kim");
+  await expect(map.locator(".constellation-center")).toContainText("rlawoals0529");
   await expect(map.locator(".constellation-center")).toContainText("product × data × engineering");
   await expect(map.getByRole("link")).toHaveCount(4);
   await expect(map.locator(".node-preview")).toHaveCount(4);
@@ -369,5 +369,5 @@ test("the server under test is this app, not another app on the same port", asyn
    * happened here twice, and once it produced a completely green run against the wrong page.
    * Ports are unique now; this is what catches the next way it goes wrong.
    */
-  await expect(page).toHaveTitle(/James Kim — Product, Data & Engineering/);
+  await expect(page).toHaveTitle(/rlawoals0529 — Product, Data & Engineering/);
 });
