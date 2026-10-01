@@ -1552,17 +1552,13 @@ a.contact-item:hover {
 
 /* ---- Recruiter-friendly overview ---------------------------------------------------------- */
 
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 60;
-  padding-inline: .25rem;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  -webkit-backdrop-filter: blur(18px) saturate(135%);
-  backdrop-filter: blur(18px) saturate(135%);
-}
-
 .nav-section { color: var(--fg); }
+
+.palette-toggle {
+  border-color: var(--surface-border);
+  background: color-mix(in srgb, var(--panel) 72%, transparent);
+  color: var(--fg);
+}
 
 .quick-read {
   display: grid;
