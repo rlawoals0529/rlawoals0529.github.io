@@ -7,9 +7,10 @@ import { fileURLToPath } from "node:url";
  * about JSON modules than Vite is, and an import attribute here would not survive the tsconfig
  * the app is built with. Reading it keeps one source of truth without fighting two loaders.
  */
+const HIDDEN_PROJECTS = new Set(["arc-agi-3-agent"]);
 const projects: { name: string; demo: string | null }[] = JSON.parse(
   readFileSync(fileURLToPath(new URL("../src/projects.json", import.meta.url)), "utf8"),
-);
+).filter((p: { name: string }) => !HIDDEN_PROJECTS.has(p.name.toLowerCase()));
 const live = projects.filter((p) => p.demo);
 
 async function ready(page: Page) {
@@ -24,36 +25,35 @@ test("every project is on the page, and the live ones are marked", async ({ page
   await expect(page.locator("#counts")).toContainText(`${projects.length} projects`);
 });
 
-test("the whole card is the target, not the title text", async ({ page }) => {
+test("the whole card is the target, not only its title text", async ({ page }) => {
   await ready(page);
   const card = page.locator(".card").first();
-  const box = (await card.boundingBox())!;
-  // A corner well away from the title. A card whose only hit area is its heading is a 21rem
-  // rectangle that looks clickable and is not.
-  const hit = await page.evaluate(
-    ({ x, y }: { x: number; y: number }) =>
-      document.elementFromPoint(x, y)?.closest("a")?.getAttribute("href") ?? null,
-    { x: box.x + box.width - 20, y: box.y + 24 },
-  );
-  expect(hit).toBeTruthy();
+  const hit = card.locator(".card-hit");
+  const [cardBox, hitBox] = await Promise.all([card.boundingBox(), hit.boundingBox()]);
+  expect(cardBox).toBeTruthy();
+  expect(hitBox).toBeTruthy();
+  expect(Math.abs(hitBox!.width - cardBox!.width)).toBeLessThanOrEqual(2);
+  expect(Math.abs(hitBox!.height - cardBox!.height)).toBeLessThanOrEqual(2);
 });
 
-test("a card carries exactly one stretched link, so it has one accessible name", async ({ page }) => {
+test("a card carries exactly one overlay link, so it has one primary accessible target", async ({ page }) => {
   await ready(page);
-  const stretched = await page.evaluate(
-    () =>
-      [...document.querySelectorAll(".card")].map(
-        (c) => [...c.querySelectorAll("a")].filter((a) => getComputedStyle(a, "::after").position === "absolute").length,
-      ),
-  );
-  expect(new Set(stretched)).toEqual(new Set([1]));
+  const cards = page.locator(".card");
+  const count = await cards.count();
+  for (let i = 0; i < count; i += 1) {
+    const hit = cards.nth(i).locator("a.card-hit");
+    await expect(hit).toHaveCount(1);
+    expect(await hit.getAttribute("aria-label")).toBeTruthy();
+  }
 });
 
 test("no demo link is a dead one", async ({ page, request }) => {
   await ready(page);
-  const hrefs = await page.locator(".card-actions a.primary").evaluateAll((els) =>
-    els.map((e) => (e as HTMLAnchorElement).href),
-  );
+  // The first action link in a card is the demo when there is one. Scoped to cards that carry
+  // a live marker, so this counts the same set the page claims is live.
+  const hrefs = await page
+    .locator(".card:has(.live) .card-actions a")
+    .evaluateAll((els) => els.map((e) => (e as HTMLAnchorElement).href).filter((h) => !h.includes("github.com")));
   expect(hrefs.length).toBe(live.length);
   for (const href of hrefs) {
     const res = await request.get(href);
@@ -70,16 +70,221 @@ test("the skip link moves focus, not only the viewport", async ({ page }) => {
   expect(await page.evaluate(() => document.activeElement?.id)).toBe("work");
 });
 
-test("a palette choice repaints the page and survives a reload", async ({ page }) => {
+test("contact exposes the public handles without the old Discord discriminator", async ({ page }) => {
   await ready(page);
+  await expect(page.getByRole("link", { name: "Contact", exact: true })).toHaveAttribute("href", "#contact");
+  await expect(page.getByRole("heading", { name: "Say hello." })).toBeVisible();
+  await expect(page.getByText("rlawoals00529@gmail.com")).toBeVisible();
+  await expect(page.getByText("jaemin", { exact: true })).toBeVisible();
+  await expect(page.getByText("Open to work", { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("button", { name: "Copy Discord username jaemin" })).toBeVisible();
+  await expect(page.locator("#contact")).not.toContainText("#");
+});
+
+test("portfolio metadata, favicon, and social card are publish-ready", async ({ page, request }) => {
+  await ready(page);
+
+  await expect(page).toHaveTitle("James Kim — Product, Data & Engineering");
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute("href", "/favicon.svg");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://rlawoals0529.github.io/");
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    "https://rlawoals0529.github.io/social-card.png",
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
+
+  const [favicon, social] = await Promise.all([
+    request.get("/favicon.svg"),
+    request.get("/social-card.png"),
+  ]);
+
+  expect(favicon.status()).toBeLessThan(400);
+  expect(social.status()).toBeLessThan(400);
+  expect(social.headers()["content-type"]).toContain("image/png");
+});
+
+test("constellation hero has a center node, four project stars, and deep links", async ({ page }) => {
+  await ready(page);
+  const hero = page.locator('[data-hero-variant="constellation"]');
+  const map = hero.locator(".constellation-map");
+
+  await expect(hero).toBeVisible();
+  await expect(map.locator(".constellation-center")).toContainText("James Kim");
+  await expect(map.locator(".constellation-center")).toContainText("product × data × engineering");
+  await expect(map.getByRole("link")).toHaveCount(4);
+  await expect(map.locator(".node-preview")).toHaveCount(4);
+
+  await expect(map.getByRole("link", { name: /Ariadne/ })).toHaveAttribute("href", "#case-ariadne");
+  await expect(map.getByRole("link", { name: /FantasyStats/ })).toHaveAttribute("href", "#case-fantasystats");
+  await expect(map.getByRole("link", { name: /sidereal/ })).toHaveAttribute("href", "#case-sidereal");
+  await expect(map.getByRole("link", { name: /shelfwear/ })).toHaveAttribute("href", "#case-shelfwear");
+});
+
+test("constellation preview appears on keyboard focus", async ({ page }) => {
+  await ready(page);
+  const ariadne = page.locator(".map-node-a");
+  const preview = ariadne.locator(".node-preview");
+
+  await ariadne.focus();
+  await expect(ariadne).toBeFocused();
+  await expect(preview).toHaveCSS("visibility", "visible");
+  await expect(preview).toHaveCSS("opacity", "1");
+});
+
+test("constellation nodes never collide in wide and narrow layouts", async ({ page }) => {
+  for (const width of [1440, 1180, 900, 453, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await ready(page);
+
+    const card = page.locator(".constellation-card");
+    const nodes = page.locator(".constellation-center, .constellation-map .map-node");
+    const cardBox = await card.boundingBox();
+    expect(cardBox, `constellation card missing at ${width}px`).not.toBeNull();
+
+    const boxes = await nodes.evaluateAll((els) =>
+      els.map((el) => {
+        const r = el.getBoundingClientRect();
+        return { left: r.left, right: r.right, top: r.top, bottom: r.bottom };
+      }),
+    );
+
+    for (let i = 0; i < boxes.length; i += 1) {
+      for (let j = i + 1; j < boxes.length; j += 1) {
+        const a = boxes[i]!;
+        const b = boxes[j]!;
+        const overlaps = a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+        expect(overlaps, `constellation nodes ${i} and ${j} overlap at ${width}px`).toBe(false);
+      }
+    }
+
+    for (const box of boxes) {
+      expect(box.left).toBeGreaterThanOrEqual(cardBox!.x - 1);
+      expect(box.right).toBeLessThanOrEqual(cardBox!.x + cardBox!.width + 1);
+    }
+  }
+});
+
+test("narrow constellation uses the route layout instead of squeezing the network", async ({ page }) => {
+  await page.setViewportSize({ width: 453, height: 900 });
+  await ready(page);
+
+  const center = page.locator(".constellation-center");
+  const firstProject = page.locator(".map-node-a");
+  const centerBox = await center.boundingBox();
+  const projectBox = await firstProject.boundingBox();
+
+  expect(centerBox).not.toBeNull();
+  expect(projectBox).not.toBeNull();
+  expect(projectBox!.y).toBeGreaterThan(centerBox!.y + centerBox!.height);
+  await expect(page.locator(".constellation-map .map-line").first()).toHaveCSS("display", "none");
+});
+
+test("constellation focus isolates the selected project and its path", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await ready(page);
+
+  const map = page.locator(".constellation-map");
+  const ariadne = map.locator(".map-node-a");
+  const fantasy = map.locator(".map-node-b");
+  const activeLine = map.locator(".map-line-a");
+  const otherLine = map.locator(".map-line-b");
+
+  await ariadne.focus();
+  await expect(ariadne).toBeFocused();
+
+  await expect.poll(async () => Number.parseFloat(await ariadne.evaluate((el) => getComputedStyle(el).opacity))).toBeGreaterThan(.9);
+  await expect.poll(async () => Number.parseFloat(await fantasy.evaluate((el) => getComputedStyle(el).opacity))).toBeLessThan(.5);
+  await expect.poll(async () => Number.parseFloat(await activeLine.evaluate((el) => getComputedStyle(el).opacity))).toBeGreaterThan(.9);
+  await expect.poll(async () => Number.parseFloat(await otherLine.evaluate((el) => getComputedStyle(el).opacity))).toBeLessThan(.2);
+});
+
+test("each constellation preview has a project-specific micro visual", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await ready(page);
+
+  const map = page.locator(".constellation-map");
+  await expect(map.locator(".preview-visual")).toHaveCount(4);
+  await expect(map.locator(".preview-ariadne .evidence-dot")).toHaveCount(3);
+  await expect(map.locator(".preview-fantasy .distribution-bar")).toHaveCount(5);
+  await expect(map.locator(".preview-sidereal .micro-orbit")).toHaveCount(2);
+  await expect(map.locator(".preview-shelfwear .micro-book")).toHaveCount(4);
+});
+
+test("featured work exposes deeper project decisions without forcing navigation", async ({ page }) => {
+  await ready(page);
+  await expect(page.locator(".spotlight-card")).toHaveCount(4);
+  const ariadne = page.locator(".spotlight-card").filter({ hasText: "Ariadne" });
+  await expect(ariadne).toContainText("Evidence-aware search");
+  await expect(ariadne.locator(".case-visual")).toHaveAttribute("aria-hidden", "true");
+  await ariadne.locator("summary").click();
+  await expect(ariadne).toContainText("Problem");
+  await expect(ariadne).toContainText("exact first-party adapters");
+  await expect(ariadne).toContainText("What this demonstrates");
+  await expect(ariadne.getByRole("link", { name: /Open project/ })).toHaveAttribute(
+    "href",
+    "https://ariadne.rlawoals0529.workers.dev",
+  );
+});
+
+test("project explorer filters and searches without losing the full index", async ({ page }) => {
+  await ready(page);
+  const allCards = page.locator(".card");
+  await expect(allCards).toHaveCount(projects.length);
+
+  await page.getByRole("button", { name: "Python", exact: true }).click();
+  const visiblePython = page.locator('.card[data-language="python"]:visible');
+  expect(await visiblePython.count()).toBeGreaterThan(0);
+  await expect(page.locator('.card:not([data-language="python"]):visible')).toHaveCount(0);
+
+  await page.getByRole("button", { name: "All", exact: true }).click();
+  await page.locator("#project-search").fill("Ariadne");
+  await expect(page.locator(".card:visible")).toHaveCount(1);
+  await expect(page.locator(".card:visible")).toContainText("Ariadne");
+
+  await page.locator("#project-search").fill("");
+  await expect(page.locator(".card:visible")).toHaveCount(projects.length);
+});
+
+test("palette picker is a disclosure and the choice survives a reload", async ({ page }) => {
+  await ready(page);
+  const toggle = page.locator("#palette-toggle");
+  const dropdown = page.locator("#palette-dropdown");
+
+  await expect(dropdown).toBeHidden();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+
+  await toggle.click();
+  await expect(dropdown).toBeVisible();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+
   const before = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   await page.locator('.swatch[data-theme="sakura-lake"]').click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "sakura-lake");
+  await expect(page.locator("#palette-toggle-label")).toHaveText("Sakura Lake");
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).not.toBe(before);
   expect(await page.evaluate(() => document.documentElement.style.colorScheme)).toBe("light");
 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "sakura-lake");
+  await expect(page.locator("#palette-toggle-label")).toHaveText("Sakura Lake");
+  await expect(page.locator("#palette-dropdown")).toBeHidden();
+});
+
+test("Escape closes the palette dropdown and restores the palette from before previewing", async ({ page }) => {
+  await ready(page);
+  const toggle = page.locator("#palette-toggle");
+  await toggle.click();
+  const starting = await page.locator("html").getAttribute("data-theme");
+
+  const selected = page.locator('.swatch[aria-checked="true"]');
+  await selected.focus();
+  await page.keyboard.press("ArrowRight");
+  expect(await page.locator("html").getAttribute("data-theme")).not.toBe(starting);
+
+  await page.keyboard.press("Escape");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", starting!);
+  await expect(page.locator("#palette-dropdown")).toBeHidden();
+  await expect(toggle).toBeFocused();
 });
 
 test("body text clears AA in every palette", async ({ page }) => {
@@ -100,7 +305,9 @@ test("body text clears AA in every palette", async ({ page }) => {
     const c = await page.evaluate((theme) => {
       document.documentElement.dataset.theme = theme;
       const p = document.querySelector(".card p")!;
-      return { text: getComputedStyle(p).color, bg: getComputedStyle(document.querySelector(".card")!).backgroundColor };
+      // The cell is transparent now, so the substrate behind the text is the page itself.
+      // Measuring against the card would read rgba(0,0,0,0) and score nothing.
+      return { text: getComputedStyle(p).color, bg: getComputedStyle(document.body).backgroundColor };
     }, id);
     // 4.5:1, the threshold for text this size. It was failing in thirteen of fifteen before the
     // card copy moved off --dim, which is a metadata colour.
@@ -115,4 +322,54 @@ test("nothing scrolls sideways, at any width", async ({ page }) => {
     const m = await page.evaluate(() => ({ doc: document.documentElement.scrollWidth, view: window.innerWidth }));
     expect(m.doc, `overflow at ${width}`).toBeLessThanOrEqual(m.view);
   }
+});
+
+test("the cards tilt toward the cursor, and stop when asked to", async ({ page, browser }) => {
+  await ready(page);
+  const card = page.locator(".card").first();
+  // Into view first. boundingBox is page-relative and mouse.move is viewport-relative, so a card
+  // hanging below the fold has its lower half at coordinates the pointer never reaches, and the
+  // test moves to empty space while the effect works perfectly.
+  await card.scrollIntoViewIfNeeded();
+  const box = (await card.boundingBox())!;
+
+  // Polled for the SIGN each time, not merely for a change. "not equal to the previous value"
+  // is also satisfied by an empty string, so it passes when the effect has been cleared, which
+  // is the opposite of what this test is for.
+  await page.mouse.move(box.x + box.width * 0.2, box.y + box.height * 0.2);
+  await expect
+    .poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform))
+    .toMatch(/rotateX\(\d/);
+
+  await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.8);
+  // Inverted, because the pointer crossed the centre. If it did not invert, nothing is tracking.
+  await expect
+    .poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform))
+    .toMatch(/rotateX\(-\d/);
+
+  // Leaving clears it, or a card stays tilted with no pointer to straighten it.
+  await page.mouse.move(2, 2);
+  await expect.poll(() => card.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform)).toBe("");
+
+  const reduced = await browser.newContext({ reducedMotion: "reduce" });
+  const quiet = await reduced.newPage();
+  await quiet.goto("/");
+  const qc = quiet.locator(".card").first();
+  await qc.scrollIntoViewIfNeeded();
+  const qb = (await qc.boundingBox())!;
+  await quiet.mouse.move(qb.x + 20, qb.y + 20);
+  await quiet.waitForTimeout(200);
+  expect(await qc.locator(".card-inner").evaluate((e) => (e as HTMLElement).style.transform)).toBe("");
+  await reduced.close();
+});
+
+test("the server under test is this app, not another app on the same port", async ({ page }) => {
+  await page.goto("/");
+  /*
+   * playwright.config.ts reuses a server that is already listening, so a port two projects
+   * share means one project's running preview quietly answers the other's tests. That has
+   * happened here twice, and once it produced a completely green run against the wrong page.
+   * Ports are unique now; this is what catches the next way it goes wrong.
+   */
+  await expect(page).toHaveTitle(/James Kim — Product, Data & Engineering/);
 });

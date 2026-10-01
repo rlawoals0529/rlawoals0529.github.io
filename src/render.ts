@@ -14,7 +14,7 @@ export const esc = (s: string): string =>
  * Which link that is depends on what exists: a live demo if there is one, because that is what
  * someone wants from a portfolio, and the repository otherwise.
  */
-export function card(p: Project): string {
+export function card(p: Project, index = 0): string {
   const primary = p.demo ?? p.repo;
   const primaryLabel = p.demo ? `${p.name}, open the live demo` : `${p.name} on GitHub`;
 
@@ -22,21 +22,34 @@ export function card(p: Project): string {
     p.language ? `<span class="chip lang">${esc(p.language)}</span>` : "",
     ...p.topics.map((t) => `<span class="chip">${esc(t)}</span>`),
   ].join("");
+  const searchText = [p.name, p.blurb, p.description, p.language ?? "", ...p.topics].join(" ").toLowerCase();
 
   return `
-<article class="card">
-  <div class="card-band" aria-hidden="true"></div>
-  <div class="card-body">
-    <h2><a href="${esc(primary)}" aria-label="${esc(primaryLabel)}">${esc(p.name)}</a></h2>
+<article
+  class="card"
+  data-live="${p.demo ? "true" : "false"}"
+  data-language="${esc((p.language ?? "").toLowerCase())}"
+  data-topics="${esc(p.topics.join(" ").toLowerCase())}"
+  data-search="${esc(searchText)}"
+>
+  <a class="card-hit" href="${esc(primary)}" aria-label="${esc(primaryLabel)}"></a>
+  <!--
+    The tilt goes on this inner layer, not on the article. The separate overlay link stays
+    stationary, so the entire card remains a reliable hit target while its contents can tilt.
+  -->
+  <div class="card-inner">
+    <span class="card-no" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+    <h2>${esc(p.name)}</h2>
     ${p.demo ? `<span class="live">live</span>` : ""}
     <p>${esc(p.blurb)}</p>
     <div class="card-meta">${chips}</div>
     <div class="card-actions">
-      ${p.demo ? `<a class="btn primary" href="${esc(p.demo)}">Open</a>` : ""}
-      <a class="btn" href="${esc(p.repo)}">Code</a>
+      ${p.demo ? `<a href="${esc(p.demo)}">Open</a>` : ""}
+      <a href="${esc(p.repo)}">Source</a>
     </div>
   </div>
 </article>`;
 }
 
-export const grid = (projects: Project[]): string => projects.map(card).join("");
+export const grid = (projects: Project[], from = 0): string =>
+  projects.map((p, i) => card(p, from + i)).join("");

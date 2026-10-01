@@ -8,17 +8,16 @@ const base: Project = {
 };
 
 describe("a card", () => {
-  it("points its one stretched link at the demo when there is one", () => {
+  it("points its one full-card link at the demo when there is one", () => {
     const html = card({ ...base, demo: "https://demo.example/" });
-    expect(html).toContain(`<a href="https://demo.example/"`);
-    // Exactly one stretched link, or the card is ambiguous to anything that is not a mouse.
-    expect(html.match(/<h2><a /g) ?? []).toHaveLength(1);
+    expect(html).toContain(`<a class="card-hit" href="https://demo.example/"`);
+    expect(html.match(/class="card-hit"/g) ?? []).toHaveLength(1);
     expect(html).toContain("Open");
   });
 
   it("falls back to the repository when nothing is deployed", () => {
     const html = card(base);
-    expect(html).toContain(`<a href="https://github.com/x/thing" aria-label="thing on GitHub"`);
+    expect(html).toContain(`<a class="card-hit" href="https://github.com/x/thing" aria-label="thing on GitHub"`);
     expect(html).not.toContain(">Open<");
   });
 

@@ -3,59 +3,334 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>James Kim - things I built</title>
-<meta name="description" content="Fifteen projects, eight of them running in your browser right now. A language for the back of an envelope, an eval harness that knows when a difference is noise, and a reviewer that says what it cannot answer.">
+<title>James Kim — Product, Data & Engineering</title>
+<meta name="description" content="Product-minded engineer building browser tools, gaming projects, data experiments, and thoughtful interfaces.">
+<meta name="author" content="James Kim">
+<meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="color-scheme" content="dark light">
-<meta property="og:title" content="James Kim - things I built">
-<meta property="og:description" content="Fifteen projects, eight of them running in your browser right now.">
+<meta name="theme-color" content="#0b1118">
+<link rel="canonical" href="https://rlawoals0529.github.io/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="James Kim — Product, Data & Engineering">
+<meta property="og:description" content="Browser tools, gaming projects, data experiments, and interfaces built with product judgment and evidence in mind.">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="James Kim">
+<meta property="og:url" content="https://rlawoals0529.github.io/">
+<meta property="og:image" content="https://rlawoals0529.github.io/social-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="James Kim portfolio with a constellation connecting Ariadne, FantasyStats, sidereal, and Shelfwear.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="James Kim — Product, Data & Engineering">
+<meta name="twitter:description" content="Browser tools, gaming projects, data experiments, and thoughtful interfaces.">
+<meta name="twitter:image" content="https://rlawoals0529.github.io/social-card.png">
+<script>
+  /* Before first paint, so the page never shows one palette and swaps to another.
+     Every palette block in palettes.css declares its own color-scheme, so setting the attribute
+     is enough; the module later sets it again through the store, which is a no-op when they
+     agree. Wrapped because localStorage throws outright in a private window. */
+  (function () {
+    var t;
+    try { t = localStorage.getItem("portfolio:theme"); } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t || "twilight-comet");
+  })();
+</script>
 </head>
 <body class="grain">
 <a class="skip" href="#work">Skip to the projects</a>
 
-<div class="wrap">
-  <header class="hero">
-    <h1>Things I<br>actually <em>built</em>.</h1>
-    <p>
-      I build the interfaces people touch, and lately that has meant putting AI inside them.
-      Everything below is mine, and <strong>eight of them run in your browser right now</strong>
-      with nothing to install.
-    </p>
-    <div class="hero-links">
-      <a class="btn primary" href="#work">See the work</a>
-      <a class="btn" href="https://github.com/rlawoals0529">GitHub</a>
-      <a class="btn" href="#palette">Change the colours</a>
-    </div>
-  </header>
+<div class="site-shell">
+  <nav class="nav" aria-label="Portfolio navigation">
+    <a class="brand" href="#top" aria-label="James Kim portfolio home">
+      <span class="brand-mark" aria-hidden="true">JK</span>
+      <span class="brand-copy">
+        <strong>James Kim</strong>
+        <small>projects, tools & experiments</small>
+      </span>
+    </a>
 
-  <main id="work" tabindex="-1">
-    <div class="section-head">
-      <h2>Open one</h2>
-      <p id="counts"></p>
+    <div class="nav-actions">
+      <a class="nav-link nav-section" href="#featured">Featured</a>
+      <a class="nav-link nav-section" href="#work">All work</a>
+      <a class="nav-link" href="https://github.com/rlawoals0529" rel="me">GitHub</a>
+      <button class="nav-link palette-toggle" id="palette-toggle" type="button" aria-expanded="false" aria-controls="palette-dropdown">
+        <span class="palette-toggle-chip" id="palette-toggle-chip" aria-hidden="true"></span>
+        <span class="sr-only">Palette: </span>
+        <span id="palette-toggle-label">Twilight Comet</span>
+        <span class="palette-toggle-caret" aria-hidden="true">⌄</span>
+      </button>
+      <a class="nav-link nav-contact" href="#contact">Contact</a>
     </div>
-    <div class="grid" id="live-grid"></div>
+  </nav>
 
-    <div class="section-head">
-      <h2>And the rest</h2>
-      <p>Libraries, tools and a design system. Code only, nothing to click.</p>
-    </div>
-    <div class="grid" id="rest-grid"></div>
-  </main>
-
-  <section class="palette" id="palette">
-    <div class="section-head">
-      <h2>Fifteen palettes</h2>
-      <p>From yozora, the design system every page here runs on. Your choice stays in this browser.</p>
-    </div>
+  <section class="palette-dropdown" id="palette-dropdown" aria-label="Colour palette" hidden>
     <div class="palette-list" id="palette-list"></div>
+    <p class="palette-hint">Arrow keys preview each palette. Escape restores the one you started with.</p>
   </section>
 
-  <footer class="foot">
-    <span>Built by James Kim. <a href="https://github.com/rlawoals0529">github.com/rlawoals0529</a></span>
-    <span>No analytics, no cookies, nothing tracked.</span>
-  </footer>
+  <div class="wrap">
+    <header class="hero hero--constellation" id="top" data-hero-variant="constellation">
+      <div class="hero-copy">
+        <p class="hero-kicker"><span aria-hidden="true">✦</span> product-minded engineering</p>
+        <h1>I build useful things, then <em>obsess over how they feel.</em></h1>
+        <p class="lede">
+          Browser tools, gaming projects, data experiments, and interfaces I wish already existed.
+          I like the part where product decisions, evidence, and implementation all have to agree.
+        </p>
+        <div class="hero-status">
+          <span class="availability"><span class="availability-mark" aria-hidden="true"></span>Open to work</span>
+          <span class="hero-note">Everything here is real, openable, or inspectable.</span>
+        </div>
+        <div class="hero-links">
+          <a class="btn primary" href="#featured">See featured work <span aria-hidden="true">↘</span></a>
+          <a class="btn" href="#work">Browse all projects</a>
+        </div>
+      </div>
+
+      <aside class="hero-card constellation-card" aria-label="Featured project constellation">
+        <div class="signature-head">
+          <div>
+            <p class="hero-card-kicker">Project constellation</p>
+            <p class="signature-note">Four projects, connected by how I like to work.</p>
+          </div>
+          <span class="signature-mark" aria-hidden="true">JK/04</span>
+        </div>
+
+        <div class="project-map constellation-map">
+          <span class="constellation-star star-1" aria-hidden="true"></span>
+          <span class="constellation-star star-2" aria-hidden="true"></span>
+          <span class="constellation-star star-3" aria-hidden="true"></span>
+          <span class="constellation-star star-4" aria-hidden="true"></span>
+          <span class="constellation-star star-5" aria-hidden="true"></span>
+          <span class="constellation-star star-6" aria-hidden="true"></span>
+
+          <span class="map-line map-line-a" aria-hidden="true"></span>
+          <span class="map-line map-line-b" aria-hidden="true"></span>
+          <span class="map-line map-line-c" aria-hidden="true"></span>
+          <span class="map-line map-line-d" aria-hidden="true"></span>
+
+          <div class="constellation-center">
+            <span class="center-star" aria-hidden="true"></span>
+            <strong>James Kim</strong>
+            <span>product × data × engineering</span>
+          </div>
+
+          <a class="map-node map-node-a" href="#case-ariadne" aria-label="Ariadne, evidence-aware search. Open case study.">
+            <span class="node-star" aria-hidden="true"></span>
+            <span class="node-copy">
+              <strong>Ariadne</strong>
+              <span>evidence-aware search</span>
+            </span>
+            <span class="node-preview" aria-hidden="true">
+              <span class="preview-visual preview-ariadne">
+                <i class="evidence-dot evidence-a"></i>
+                <i class="evidence-dot evidence-b"></i>
+                <i class="evidence-dot evidence-c"></i>
+                <i class="evidence-link evidence-link-a"></i>
+                <i class="evidence-link evidence-link-b"></i>
+              </span>
+              <b>Ariadne</b>
+              <span>Public-username search that keeps verified evidence separate from uncertain matches.</span>
+              <em>Open case study ↘</em>
+            </span>
+          </a>
+
+          <a class="map-node map-node-b" href="#case-fantasystats" aria-label="FantasyStats, probability over prediction. Open case study.">
+            <span class="node-star" aria-hidden="true"></span>
+            <span class="node-copy">
+              <strong>FantasyStats</strong>
+              <span>probability over prediction</span>
+            </span>
+            <span class="node-preview" aria-hidden="true">
+              <span class="preview-visual preview-fantasy">
+                <i class="distribution-bar bar-1"></i>
+                <i class="distribution-bar bar-2"></i>
+                <i class="distribution-bar bar-3"></i>
+                <i class="distribution-bar bar-4"></i>
+                <i class="distribution-bar bar-5"></i>
+                <i class="distribution-baseline"></i>
+              </span>
+              <b>FantasyStats</b>
+              <span>Fantasy football that treats uncertainty as part of the product instead of hiding it.</span>
+              <em>Open case study ↘</em>
+            </span>
+          </a>
+
+          <a class="map-node map-node-c" href="#case-sidereal" aria-label="sidereal, realtime data sky. Open case study.">
+            <span class="node-star" aria-hidden="true"></span>
+            <span class="node-copy">
+              <strong>sidereal</strong>
+              <span>realtime data sky</span>
+            </span>
+            <span class="node-preview" aria-hidden="true">
+              <span class="preview-visual preview-sidereal">
+                <i class="micro-orbit orbit-a"></i>
+                <i class="micro-orbit orbit-b"></i>
+                <i class="micro-star micro-star-a"></i>
+                <i class="micro-star micro-star-b"></i>
+                <i class="micro-star micro-star-c"></i>
+                <i class="micro-satellite"></i>
+              </span>
+              <b>sidereal</b>
+              <span>A live night sky where every visible event traces back to measured data.</span>
+              <em>Open case study ↘</em>
+            </span>
+          </a>
+
+          <a class="map-node map-node-d" href="#case-shelfwear" aria-label="shelfwear, private and social game analysis. Open case study.">
+            <span class="node-star" aria-hidden="true"></span>
+            <span class="node-copy">
+              <strong>shelfwear</strong>
+              <span>private + social game analysis</span>
+            </span>
+            <span class="node-preview" aria-hidden="true">
+              <span class="preview-visual preview-shelfwear">
+                <i class="micro-shelf"></i>
+                <i class="micro-book book-a"></i>
+                <i class="micro-book book-b"></i>
+                <i class="micro-book book-c"></i>
+                <i class="micro-book book-d"></i>
+              </span>
+              <b>shelfwear</b>
+              <span>Steam-library analysis built around private local parsing and easy sharing.</span>
+              <em>Open case study ↘</em>
+            </span>
+          </a>
+        </div>
+
+        <div class="constellation-footer" aria-label="Portfolio summary">
+          <span><strong>4</strong> featured</span>
+          <span><strong id="hero-live-count">—</strong> live</span>
+          <span><strong id="hero-project-count">—</strong> total</span>
+        </div>
+        <p class="hero-card-note">No analytics, no cookies, nothing tracked.</p>
+      </aside>
+    </header>
+
+    <section class="quick-read" aria-labelledby="quick-read-title">
+      <div class="quick-read-copy">
+        <p class="eyebrow">The quick read</p>
+        <h2 id="quick-read-title">I build where product, data, and engineering meet.</h2>
+        <p>I tend to build things where the interface has to explain the system underneath it, not hide it.</p>
+      </div>
+      <div class="quick-read-grid">
+        <article>
+          <span class="quick-icon" aria-hidden="true">↗</span>
+          <strong>I start with the question</strong>
+          <p>I care about what should exist, what should not, and what the interface needs to make obvious.</p>
+        </article>
+        <article>
+          <span class="quick-icon" aria-hidden="true">≈</span>
+          <strong>I test the claim</strong>
+          <p>I would rather show uncertainty, provenance, or “not measured” than make a number look more certain than it is.</p>
+        </article>
+        <article>
+          <span class="quick-icon" aria-hidden="true">⌘</span>
+          <strong>I ship the thing</strong>
+          <p>Most of the work here is live in a browser, with the implementation and source available to inspect.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="featured" id="featured" aria-labelledby="featured-title">
+      <div class="section-head">
+        <div class="section-title-wrap">
+          <span class="section-doodle" aria-hidden="true">01</span>
+          <div>
+            <p class="eyebrow">Featured work</p>
+            <h2 id="featured-title">The projects I’d start with.</h2>
+          </div>
+        </div>
+        <p>Each one has a short case note with the problem, key decisions, and what the project demonstrates.</p>
+      </div>
+      <div class="spotlight-grid" id="spotlight-grid"></div>
+    </section>
+
+    <main id="work" tabindex="-1">
+      <div class="section-head explorer-head">
+        <div class="section-title-wrap">
+          <span class="section-doodle alt" aria-hidden="true">02</span>
+          <div>
+            <p class="eyebrow">Project index</p>
+            <h2>Explore everything</h2>
+          </div>
+        </div>
+        <p id="counts"></p>
+      </div>
+
+      <div class="project-explorer" aria-label="Project filters">
+        <label class="project-search">
+          <span class="sr-only">Search projects</span>
+          <span aria-hidden="true">⌕</span>
+          <input id="project-search" type="search" placeholder="Search projects, tech, or topics" autocomplete="off">
+        </label>
+        <div class="filter-row" role="group" aria-label="Filter projects">
+          <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-chip" type="button" data-filter="live" aria-pressed="false">Live</button>
+          <button class="filter-chip" type="button" data-filter="typescript" aria-pressed="false">TypeScript</button>
+          <button class="filter-chip" type="button" data-filter="python" aria-pressed="false">Python</button>
+          <button class="filter-chip" type="button" data-filter="gaming" aria-pressed="false">Gaming</button>
+          <button class="filter-chip" type="button" data-filter="data" aria-pressed="false">Data / AI</button>
+        </div>
+      </div>
+
+      <section class="project-section" data-project-section>
+        <div class="project-subhead">
+          <h3>Live in your browser</h3>
+          <p>Open these without installing anything.</p>
+        </div>
+        <div class="grid" id="live-grid"></div>
+      </section>
+
+      <section class="project-section" data-project-section>
+        <div class="project-subhead">
+          <h3>Source-first projects</h3>
+          <p>Libraries, tools, experiments, and work where the implementation is the main artifact.</p>
+        </div>
+        <div class="grid" id="rest-grid"></div>
+      </section>
+
+      <p class="project-empty" id="project-empty" hidden>No projects match that filter yet.</p>
+    </main>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="contact-intro">
+        <p class="hero-kicker"><span aria-hidden="true">↗</span> get in touch</p>
+        <h2 id="contact-title">Say hello.</h2>
+        <p>If something here caught your attention, email or Discord both work.</p>
+      </div>
+      <div class="contact-grid">
+        <a class="contact-item" href="mailto:rlawoals00529@gmail.com">
+          <span class="label">Email</span>
+          <strong>rlawoals00529@gmail.com</strong>
+          <span class="contact-arrow" aria-hidden="true">↗</span>
+        </a>
+        <button class="contact-item contact-copy" type="button" data-copy="jaemin" aria-label="Copy Discord username jaemin">
+          <span class="label">Discord</span>
+          <strong>jaemin</strong>
+          <span class="contact-action" aria-hidden="true">Copy</span>
+        </button>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Built by James Kim.</span>
+      <a href="https://github.com/rlawoals0529">github.com/rlawoals0529 ↗</a>
+    </footer>
+  </div>
 </div>
 
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
