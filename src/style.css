@@ -2309,6 +2309,7 @@ a.contact-item:hover {
   color: var(--fg);
   font: 820 clamp(1.8rem, 4vw, 2.7rem)/1 var(--font-round);
   letter-spacing: -.055em;
+  text-transform: none;
 }
 
 .contact-grid {
