@@ -1391,12 +1391,6 @@ main:focus { outline: none; }
   background: color-mix(in srgb, var(--accent) 6%, var(--panel));
 }
 
-.contact-resume {
-  background:
-    radial-gradient(circle at 92% 12%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 42%),
-    color-mix(in srgb, var(--bg) 38%, transparent);
-}
-
 a.contact-item {
   transition: transform 140ms ease, border-color 140ms ease, background-color 140ms ease;
 }
