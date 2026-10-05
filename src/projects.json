@@ -288,6 +288,17 @@
     "rank": 19
   },
   {
+    "name": "atlas",
+    "blurb": "",
+    "description": "",
+    "language": "TypeScript",
+    "topics": [],
+    "repo": "https://github.com/rlawoals0529/atlas",
+    "demo": null,
+    "stars": 0,
+    "rank": 900
+  },
+  {
     "name": "ev-purchase-prediction",
     "blurb": "Kaggle tabular ML project for EV purchase prediction using cross-validation, feature experiments, and model ensembling.",
     "description": "Kaggle tabular ML project for EV purchase prediction using cross-validation, feature experiments, and model ensembling.",
